@@ -1,0 +1,338 @@
+\documentclass[9pt]{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{tabulary}
+\usepackage{booktabs}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\graphicspath{{./images/logos/}{./images/samples/}}
+
+\include{includes/IGN}
+
+\usepackage{standalone}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\norm{\vert\vert}{\vert\vert}
+\DeclarePairedDelimiter\abs{\vert}{\vert}
+
+
+\usepackage{pdfpages}
+\usepackage{hyperref}
+
+\usepackage{color}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Traitements avancés des images de Télédétection}
+\subtitle{SVM et Sélection d'attribut}
+\author{Oussama ENNAFII}
+\institute{ENSG}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Presentation Layout}
+		\tableofcontents[
+		currentsection,
+		sectionstyle=show/shaded,
+		subsectionstyle=show/shaded/hide
+		]
+	\end{frame}
+}
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Presentation Layout}
+		\tableofcontents[
+		currentsection,
+		sectionstyle=show/shaded,
+		subsectionstyle=hide
+		]
+	\end{frame}
+}
+
+\begin{document}
+
+	\usebackgroundtemplate{
+		\begin{tikzpicture}
+			\node (bg) {
+				\includegraphics[width=12.5cm]{from_space_background}
+			};
+			\path (bg.north)+(-5.5, 1) node (ign) {
+				\includegraphics[height=1.5cm]{ign_logo}
+			};
+			\path (ign.east)+(10.25, 0) node {
+				\includegraphics[width=1.5cm]{ensg_logo}
+			};
+		\end{tikzpicture}
+	}
+
+	\begin{frame}[plain,c]
+		\begin{columns}
+			\begin{column}{8cm}
+				\begin{center}
+					\vspace{2cm}
+					\titlepage{}
+				\end{center}
+			\end{column}
+			\begin{column}{1cm}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\usebackgroundtemplate{
+		\begin{tikzpicture}[scale=0.503]
+			\filldraw[color=IGNGris] (0,0) rectangle(2.62,0.54);
+			\filldraw[color=IGNGris] (4.77,0) rectangle(2.62+4.77,0.54);
+
+			\filldraw[color=IGNVert] (9.50+0.27,0) -- (9.50,0.54)-- (9.50+7.41-0.27,0.54)-- (9.50+7.41,0)--cycle;
+
+			\filldraw[color=IGNGris] (19.50,0) rectangle(2.62+19.50,0.54);
+			\filldraw[color=IGNGris] (23.11,0.54)--(23.11+0.54,0)--(2.3+23.11,0)--(2.3+23.11,0.54)--cycle;;
+		\end{tikzpicture}
+	}
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% toc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\setbeamercolor{section in sidebar}{fg=white }
+	\setbeamercolor{subsection in sidebar}{fg=white }
+	\setbeamercolor{section in sidebar shaded}{fg=white }
+	\setbeamercolor{subsection in sidebar shaded}{fg=white }
+	\begin{frame}
+			\tableofcontents
+	\end{frame}
+	\setbeamercolor{section in sidebar}{fg=IGNGris}
+	\setbeamercolor{subsection in sidebar}{fg=IGNGris}
+	\setbeamercolor{section in sidebar shaded}{fg=IGNVert}
+	\setbeamercolor{subsection in sidebar shaded}{fg=IGNVert}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\section*{Introduction}
+
+	\begin{frame}{Rappel}
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[width=.7\textwidth]{sample_2d}
+				\caption{\label{fig::sample_2d} Example de problème de classification: $2$ attributs et $2$ classes.}
+			\end{center}
+		\end{figure}
+		\begin{itemize}
+			\item[-]<1-> On observe $n$ échantillons: $\Big((X^i, Y^i)\Big)_{i=1,\dots,n}$,
+			\item[-]<2-> Sachant une instance $X^j = \begin{pmatrix}
+			X_1^j\\
+			\vdots\\
+			X_d^j
+			\end{pmatrix}$, il faut prédire sa classe $Y^j$ et sa probabilité.
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Supervisé vs Non-Supervisée}
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[width=.7\textwidth]{circles}
+				\caption{\label{fig::circles} Example de problème de classification non supervisée: Pas de classes mais une structure se dégage.}
+			\end{center}
+		\end{figure}
+		\begin{itemize}
+			\item[-]<1-> On observe que les instances $(X^i)_{i=1,\dots,n}$ sans les classes $\longrightarrow$ Classification non supervisée,
+			\item[-]<2-> On observe des instances et leurs classes respectives $\Big((X^i, Y^i)\Big)_{i=1,\dots,n}$ $\longrightarrow$ Classification supervisée.
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Discriminatif vs Génératif}
+		Les échantillons réalise une loi de distribution inconnues $\mathbb{P}(X^i=x,Y^i=y)=p(x,y)$ et sont indépendents entre eux. La prédiction dépend de notre connaissance préalable:
+		\begin{itemize}
+			\item[-]<1-> On sait modéliser la distribution des classes et la réalisation des instances selon cette classe $p(x,y) = p(y).p(x\vert y)$ $\longrightarrow$ méthode générative,
+			\begin{itemize}
+				\item[-]<2-> On suppose que la répartition des sexes est équilibrée dans le monde et que la répartition des mesures --- poids et taille --- suivent des lois gaussiennes (c.f Figure~\ref{fig::sample_2d});
+			\end{itemize}
+			\item[-]<3-> On n'a aucune connaissance \textit{a priori}. On cherche à apprendre $ p(x,y) = p(y \vert x).p(x)$ $\longrightarrow$ méthode discriminative,
+			\begin{itemize}
+				\item[-]<4-> On apprend un modèle d'arbres aléatoires.
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Pourquoi classifier?}
+		\begin{figure}[H]
+			\includegraphics[width=.7\textwidth]{pc_classification}
+			\caption{\label{fig::pc_classif}Example de classification de nuage de point\cite{LANDRIEU2017102}.}
+		\end{figure}
+	\end{frame}
+
+	\section[SVM]{SVM}
+	\begin{frame}{Curse of dimensionality}
+		\begin{itemize}
+			\item[-]<1-> Si on a $n$ points à séparer, sans un modèle de classification, il y a un nombre exponentiel de séparations $\sum_{k=0,\dots,\lfloor \frac{n}{2} \rfloor} \begin{pmatrix}
+			n\\
+			k
+			\end{pmatrix} = 2^{n-1}$ qui sont possible $\longrightarrow$ C'est incalculable.
+			\item[-]<2-> Il faut donc un modèle de séparation qui permettra de chercher efficacement une bonne solution: Forêts Aléatoires, \textbf{SVM}, Réseaux de Neurones \dots
+		\end{itemize}
+	\end{frame}
+	\subsection[linear]{SVM linéaire}
+	\begin{frame}{Mais c'est quoi donc ce SVM?}
+		Some issues to take into account:
+		\begin{itemize}
+			\item[-] Samples
+		\end{itemize}
+	\end{frame}
+
+	\subsection[kernel]{Kernel SVM}
+	\begin{frame}{Changement d'espace}
+
+	\end{frame}
+
+	\begin{frame}{Kernel trick}
+
+	\end{frame}
+
+	\begin{frame}{Kernels Usuels}
+
+	\end{frame}
+
+	\section[feature selection]{Sélection d'attributs}
+	\subsection[motivation]{Motivation}
+	\begin{frame}{Pourquoi sélectionner les attributs?}
+		Les espaces à très grande dimension ne resemble pas au plan ou au volume:
+		\begin{itemize}
+			\item[-]<1-> Les calculs durent plus de temps,
+			\item[-]<2-> Il y a moins de volume à l'intérieur; si on compare le volume contenu dans une sphère et le volume de l'hypercube circonscrit:
+			$$\frac{V(\mathbb{B}_{2}(r))}{V(\mathbb{B}_{\infty}(r))}\xrightarrow[d \to \infty]{} 0$$
+			\item[-]<3-> La distance euclidienne n'a plus de sens en très grande dimension~\cite{Domingos:2012:FUT:2347736.2347755}.
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Comment sélectionner les attributs?}
+		Encore un fois, sans connaissance préalable, la sélection d'attributs est insoluble vue le nombre exponentiel de possibilité $\sum_{k=0,\dots,n} \begin{pmatrix}
+		n\\
+		k
+		\end{pmatrix} = 2^n$.
+
+		On distingue donc trois types d'approche:
+		\begin{enumerate}
+			\item<1-> approche par filtre: on choisit les attributs en amont en reposant sur un critère,
+			\item<2-> approche intégrée: on sélectionne les attributs en reposant sur les caractéristiques du classifieur,
+			\item<3-> approche symbiotique: on retient les attributs les plus performants en aval.
+		\end{enumerate}
+	\end{frame}
+
+	\subsection[filter approach]{Approche par filtre}
+	\begin{frame}{Approche par filtre}
+		\begin{itemize}
+			\item[-] Corrélation: un bon sous-ensemble contient des attributs pas très corrélés entre eux $\longrightarrow$ on élimine les variables redondantes;
+			\item[-] Relief: qualification d un attribut en fonction de comment ses valeurs permettent de distinguer des points qui sont proches.
+		\end{itemize}
+	\end{frame}
+
+	\subsection[integrated approach]{Approche intégrée}
+	\begin{frame}{Approche intégrée: cas du SVM-RFE}
+		On repose par exemple sur les poids du SVM $w$:
+		\begin{enumerate}
+			\item<1-> On entraine le SVM $\longrightarrow$ on obtient le $w$.
+			\item<2-> On choisit l'attribut $i$ avec le plus faible poids:
+			$$ i \leftarrow \arg \min_{k=1,\dots,d}{\vert\vert w_k\vert\vert}$$.
+			\item<3-> On élémine ce minimum.
+		\end{enumerate}
+		On procède donc par récurence jusqu'au nombre d'attributs cherché~\cite{Guyon2002}.
+	\end{frame}
+
+	\subsection[symbiotic approach]{Approche symbiotique}
+	\begin{frame}{SFS}
+		Sélection ascendante (SFS\@: Sequential Forward Selection).
+		\begin{enumerate}
+		\item<1-> On sélectionne le meilleur attribut;
+		\item<2-> On lui rajoutte l'attribut qui forme la meilleur paire;
+		\item<3-> On continue à rajoutter les attributs de manière à avoir à l'itération $k$ le meilleur $k$-tuple;
+		\item[-]<4-> Le problème est que l'on peut ratter en procédant ainsi au meilleur ensemble.
+		\begin{block}{Exemple}
+			\begin{table}
+				\begin{tabular}{c c c c c}
+					\toprule
+					attributs sélectionés & $1$ & $2$ & $3$ & $4$\\
+					\midrule
+					résultat& $0.49$ & $0.21$ & $0.19$ &$0.24$\\
+					\bottomrule
+				\end{tabular}
+				\begin{tabular}{c c c c c c c}
+					\toprule
+					attributs sélectionés & $1,2$ & $1,3$ & $1,4$ & $2,3$ & $2,4$ & $3,4$\\
+					\midrule
+					résultat & $0.59$ & $0.51$ & $0.52$ & $0.45$ & $0.49$ & $0.48$\\
+					\bottomrule
+				\end{tabular}
+				\begin{tabular}{c c c c c c c}
+					\toprule
+					attribut sélectionés & $1,2,3$ & $1,2,4$ & $1,3,4$ & $2,3,4$ & $1,2,3,4$\\
+					\midrule
+					résultat & $0.61$ & $0.67$ & $0.59$ & $0.78$ & $0.81$\\
+					\bottomrule
+				\end{tabular}
+			\end{table}
+		\end{block}
+		\end{enumerate}
+	\end{frame}
+
+	\begin{frame}{SBE}
+		Sélection descendante (SBE\@: Sequential Backward Elimination).
+		Cette méthode ressemble à celle d'avant.
+		\begin{enumerate}
+		\item<1-> On élimine le attribut qui ne rapporte pas beaucoup;
+		\item<2-> On réitère de façon à ce que qu'à l'itération $k$ on aura éleminé les $k$ pire attribut;
+		\item<3-> On continue jusqu'à ce qu'il ne reste plus qu'un attribut ou un nombre donné.
+		\item[-]<4-> On rencontre le même problèmes qu'avant.
+		\end{enumerate}
+	\end{frame}
+
+	\begin{frame}{Comment résoudre le problème donc?}
+		\begin{itemize}
+			\item<1-> Combinaison SFS + SBE: sélection Plus-L-Moins-R:
+			\begin{itemize}
+				\item Si $L > R$, on commence avec un ensemble vide, on ajoute L attributs puis on en enlève R,
+				\item Si $L < R$, on commence avec tous les attributs, on enlève R attributs puis on en rajoute L;
+			\end{itemize}
+			\item<2-> On garantit la convergence vers une solution unique:
+			\begin{itemize}
+				\item On peut vérifier que SFS et SBE ne se contredisent pas.
+				\item On peut procéder comme dans l'example:
+				\begin{block}{Exemple}
+					Si SFS veut ajouter un attribut, il vérifie qu'il n'a pas été éliminé par SBE. Si oui, il prend le 2$^{\text{ème}}$ meilleur et ainsi de suite.
+				\end{block}
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\section*{References}
+	\begin{frame}[allowframebreaks]{References}
+		\nocite{sklearn_api}
+		\bibliographystyle{apalike}
+		\bibliography{references.bib}
+	\end{frame}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\usebackgroundtemplate{
+	        \begin{tikzpicture}
+		        \draw (0,0.5) node[right] { \includegraphics[width=12.5cm]{from_space_background} };
+		        \draw (0,5) node[right] { \includegraphics[height=1.5cm]{ign_logo} };
+		        \draw (1.5,4.95) node[right] { \includegraphics[width=3cm]{ign_logo_bottom} };
+	        \end{tikzpicture}
+	}
+	\begin{frame}[plain,c]
+		\vspace{3cm}
+		\begin{tikzpicture}
+			\draw (0,0)node{};
+			\draw (4.5,1) node[color =IGNGris, inner sep=0.5em, minimum size=0.5em, text centered,font=\LARGE] { Thanks for your attention, };
+			\draw (4.5,0) node[color =IGNGris, inner sep=0.5em, minimum size=0.5em, text centered,font=\LARGE] { I am ready for your questions! };
+			\draw (4.5,-2) node[color =IGNVert, inner sep=0.5em, minimum size=0.5em, text centered,font=\LARGE] { oussama.ennafii@ign.fr };
+		\end{tikzpicture}
+	\end{frame}
+\end{document}

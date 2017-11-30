@@ -1,0 +1,4 @@
+{
+  "root" : "main.tex",
+  "latex_ext": [".tikz"]
+}

@@ -1,2 +1,1 @@
-# svm-fs
-Course on SVM and Feature Selection.
+# SVM and Feature Selection
