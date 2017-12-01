@@ -23,6 +23,8 @@
 \usepackage{amsmath}
 \usepackage{mathrsfs}
 \usepackage{mathtools}
+\usepackage{dsfont}
+\usepackage{bbold}
 
 
 \usepackage{pdfpages}
@@ -128,8 +130,8 @@
 			\end{center}
 		\end{figure}
 		\begin{itemize}
-			\item[-]<1-> On observe $n$ échantillons: $\Big((X^i, Y^i)\Big)_{i=1,\dots,n}$,
-			\item[-]<2-> Sachant une instance $X^j = \begin{pmatrix}
+			\item[--]<1-> On observe $n$ échantillons: $\Big((X^i, Y^i)\Big)_{i=1,\dots,n}$,
+			\item[--]<2-> Sachant une instance $X^j = \begin{pmatrix}
 			X_1^j\\
 			\vdots \\
 			X_d^j
@@ -145,21 +147,21 @@
 			\end{center}
 		\end{figure}
 		\begin{itemize}
-			\item[-]<1-> On observe que les instances ${(X^i)}_{i=1,\dots,n}$ sans les classes $\longrightarrow$ Classification non supervisée,
-			\item[-]<2-> On observe des instances et leurs classes respectives ${\Big((X^i, Y^i)\Big)}_{i=1,\dots,n}$ $\longrightarrow$ Classification supervisée.
+			\item[--]<1-> On observe que les instances ${(X^i)}_{i=1,\dots,n}$ sans les classes $\longrightarrow$ Classification non supervisée,
+			\item[--]<2-> On observe des instances et leurs classes respectives ${\Big((X^i, Y^i)\Big)}_{i=1,\dots,n}$ $\longrightarrow$ Classification supervisée.
 		\end{itemize}
 	\end{frame}
 
 	\begin{frame}{Discriminatif vs Génératif}
 		Les échantillons réalise une loi de distribution inconnues $\mathbb{P}(X^i=x,Y^i=y)=p(x,y)$ et sont indépendents entre eux. La prédiction dépend de notre connaissance préalable:
 		\begin{itemize}
-			\item[-]<1-> On sait modéliser la distribution des classes et la réalisation des instances selon cette classe $p(x,y) = p(y).p(x\vert y)$ $\longrightarrow$ méthode générative,
+			\item[--]<1-> On sait modéliser la distribution des classes et la réalisation des instances selon cette classe $p(x,y) = p(y).p(x\vert y)$ $\longrightarrow$ méthode générative,
 			\begin{itemize}
-				\item[-]<2-> On suppose que la répartition des sexes est équilibrée dans le monde et que la répartition des mesures --- poids et taille --- suivent des lois gaussiennes (c.f Figure~\ref{fig::sample_2d});
+				\item[--]<2-> On suppose que la répartition des sexes est équilibrée dans le monde et que la répartition des mesures --- poids et taille --- suivent des lois gaussiennes (c.f Figure~\ref{fig::sample_2d});
 			\end{itemize}
-			\item[-]<3-> On n'a aucune connaissance \textit{a priori}. On cherche à apprendre $ p(x,y) = p(y \vert x).p(x)$ $\longrightarrow$ méthode discriminative,
+			\item[--]<3-> On n'a aucune connaissance \textit{a priori}. On cherche à apprendre $ p(x,y) = p(y \vert x).p(x)$ $\longrightarrow$ méthode discriminative,
 			\begin{itemize}
-				\item[-]<4-> On apprend un modèle d'arbres aléatoires.
+				\item[--]<4-> On apprend un modèle d'arbres aléatoires.
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -200,18 +202,18 @@
 	\section[SVM]{SVM}
 	\begin{frame}{Curse of dimensionality}
 		\begin{itemize}
-			\item[-]<1-> Si on a $n$ points à séparer, sans un modèle de classification, il y a un nombre exponentiel de séparations $\sum_{k=0,\dots,\lfloor \frac{n}{2} \rfloor} \begin{pmatrix}
+			\item[--]<1-> Si on a $n$ points à séparer, sans un modèle de classification, il y a un nombre exponentiel de séparations $\sum_{k=0,\dots,\lfloor \frac{n}{2} \rfloor} \begin{pmatrix}
 			n\\
 			k
 			\end{pmatrix} = 2^{n-1}$ qui sont possible $\longrightarrow$ C'est incalculable.
-			\item[-]<2-> Il faut donc un modèle de séparation qui permettra de chercher efficacement une bonne solution: Forêts Aléatoires, \textbf{SVM}, Réseaux de Neurones \dots
+			\item[--]<2-> Il faut donc un modèle de séparation qui permettra de chercher efficacement une bonne solution: Forêts Aléatoires, \textbf{SVM}, Réseaux de Neurones \dots
 		\end{itemize}
 	\end{frame}
-	\subsection[linear]{SVM linéaire}
+	\subsection[linear]{Séparateur linéaire}
 	\begin{frame}{Mais c'est quoi donc ce SVM?}
 		\begin{itemize}
-			\item[-] SVM\@: Support Vector Machines;
-			\item[-] C'est donc un vecteur support?
+			\item[--] SVM\@: Support Vector Machines;
+			\item[--] C'est donc un vecteur support?
 		\end{itemize}
 	\end{frame}
 
@@ -220,14 +222,14 @@
 		$$ X^i \in \mathbb{R}^d , \quad \forall i=1,\dots,n$$
 		$$ Y^i \in \{-1, +1\} , \quad \forall i=1,\dots,n$$
 		\begin{itemize}
-			\item[-]On cherche une fonction qui modélise la probabilité
+			\item[--]On cherche une fonction qui modélise la probabilité
 			$$f: x \mapsto f(x) = (+1) \times p(1\vert x) + (-1) \times p(-1\vert x)$$
 			à partir duquel on en déduit le décideur:
 			\begin{align*}
 				D: \mathbb{R}^d &\rightarrow \{-1, +1\} \\
 				x &\mapsto D(x) = sign(f(x))
 			\end{align*}
-			\item[-] Le séparateur est la courbe qui vérifie:
+			\item[--] Le séparateur est la courbe qui vérifie:
 			\begin{align*}
 				\mathscr{S} &\triangleq \{X \in \mathbb{R}^d: f(X) = 0\} \\
 							&= \{X \in \mathbb{R}^d: p(1\vert x) = p(-1\vert x)\}
@@ -264,8 +266,8 @@
 
 	\begin{frame}{Choix du séparateur}
 		\begin{itemize}
-			\item[-] Il y a une infinité de modèle de $f(X)$ possible.
-			\item[-] Le choix le plus naïf serait:
+			\item[--] Il y a une infinité de modèle de $f(X)$ possible.
+			\item[--] Le choix le plus naïf serait:
 			\begin{equation*}
 				f = \sum_{i=1,\dots,n} Y^i . \delta_{X^i}
 			\end{equation*}
@@ -274,10 +276,10 @@
 				\widetilde{x} \leftarrow \sum_{i=1,\dots,n} X^i \notin \{X^i, \forall i=1,\dots,n\}\\
 				\Rightarrow f(\widetilde{x}) = 0
 			\end{gather*}
-			\item[-] On s'intéresse ici au séparateur linéaire:
+			\item[--] On s'intéresse ici au séparateur linéaire:
 			\begin{align*}
-				f_{w, b}: \mathbb{R}^d &\rightarrow \{-1, 0, +1\} \\
-				x &\mapsto f_{w, b}(x) = w.x + b
+				f_{\textbf{w}, b}: \mathbb{R}^d &\rightarrow \{-1, 0, +1\} \\
+				\textbf{x} &\mapsto f_{\textbf{w}, b}(\textbf{x}) = \textbf{w}.\textbf{x} + b
 			\end{align*}
 		\end{itemize}
 	\end{frame}
@@ -309,6 +311,153 @@
 		\end{figure}
 	\end{frame}
 
+	\subsection[linear]{SVM linéaire}
+	\begin{frame}{Mais c'est quoi donc ce SVM?}
+		\begin{itemize}
+			\item[--] SVM\@: Support Vector Machines.
+			\item[--] C'est quoi donc un vecteur support?
+			\item[--] Quelle est la relation avec les séparateurs linéaires?
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{SVM\@: maximiser la marge.}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth]{svm}
+			\caption{\label{fig::svm} Le séparateur linéaire SVM.}
+		\end{figure}
+	\end{frame}
+
+	\begin{frame}{SVM\@: maximiser la marge.}
+		\begin{itemize}
+			\item[--] Le but du SVM est de maximiser la marge~\cite{vapnik1998statistical}.
+			\item[--] On remarque que:
+			\begin{gather*}
+				\textbf{w} \in \{\omega \in \mathbb{R}^d : f_{\omega, b} = \mathbb{0}\} \\
+				\Rightarrow
+				\lambda . \textbf{w} \in \{\omega \in \mathbb{R}^d : f_{\omega, b} = \mathbb{0}\}\quad, \forall \lambda \in \mathbb{R}\setminus\{0\}
+			\end{gather*}
+			\item[--] On prend donc la solution $\textbf{w}$ qui permet d'avoir:
+			\begin{align}
+				\textbf{w}.\textbf{x}_{\color{blue}+} + b &= {\color{blue}+}1 \\
+				\textbf{w}.\textbf{x}_{\color{red}-} + b &= {\color{red}-}1
+			\end{align}
+			où:
+			\begin{itemize}
+				\item[{\color{blue}+}] $\textbf{x}_{\color{blue}+}$ correspond aux supports vecteurs positifs (i.e. $Y={\color{blue}+}1$).
+				\item[{\color{red}---}] $\textbf{x}_{\color{red}-}$ correspond aux supports vecteurs négatifs (i.e. $Y={\color{red}-}1$).
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{SVM\@: maximiser la marge.}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth]{svm_margin}
+			\caption{\label{fig::margin} Le séparateur linéaire SVM.}
+		\end{figure}
+	\end{frame}
+
+	\begin{frame}{SVM\@: optimisation.}
+		\begin{itemize}
+			\item[--] On cherche à maximiser la marge:
+			\begin{align}
+				M &= \frac{\textbf{w}.(\textbf{x}_+ - \textbf{x}_-)}{\vert\vert \textbf{w} \vert\vert} \\
+				  &= \frac{2}{\vert\vert \textbf{w} \vert\vert}
+			\end{align}
+			\item[--] Le problème est reformuler donc comme suit:
+			\begin{equation}
+				\begin{aligned}
+				& \max_{\textbf{w}}
+				& & \frac{2}{\vert\vert \textbf{w} \vert\vert} \\
+				& \text{sous contrainte}
+				& & \begin{cases}
+					\textbf{w}.\textbf{X}^i + b \leq -1 & Y^i = -1 \\
+					\textbf{w}.\textbf{X}^i + b \geq 1 & Y^i = 1
+				\end{cases} \; \forall i = 1, \dots, n.
+				\end{aligned}
+			\end{equation}
+			\item[--] Ou encore:
+			\begin{equation}
+				\begin{aligned}
+				& \min_{\textbf{w}}
+				& & {\vert\vert \textbf{w} \vert\vert}^2 \\
+				& \text{sous contrainte}
+				& & Y^i.(\textbf{w}.\textbf{X}^i + b) \geq 1 \; \forall i = 1, \dots, n.
+				\end{aligned}
+			\end{equation}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Cas non séparable.}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth]{non_separable}
+			\caption{\label{fig::non_sep} Le séparateur linéaire SVM.}
+		\end{figure}
+	\end{frame}
+
+	\begin{frame}{Cas non séparable.}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth]{stable_margin}
+			\caption{\label{fig::stable_margin} Le séparateur linéaire SVM.}
+		\end{figure}
+	\end{frame}
+
+	\begin{frame}{Cas non séparable.}
+		\begin{itemize}
+			\item[--] Formellement on lâche du ``mou''. On accepte des fois que
+			$$\exists k \; Y^k.(\textbf{w}.\textbf{X}^k + b) < 1$$
+			\item[--] On peut écrire ceci autrement:
+			$$\forall i=1,\dots,n \quad \exists \xi_i > 0 \quad Y^i.(\textbf{w}.\textbf{X}^i + b) \geq 1 - \xi_i$$
+
+			\item[--] Il y a donc trois cas pour $ \xi_i $:
+			\begin{itemize}
+				\item[-] $\xi_i = 0 \Rightarrow$ Point bien classé;
+				\item[-] $0 < \xi_i \leq 1 \Rightarrow$ Point en dehors de la marge;
+				\item[-] $1 < \xi_i \Rightarrow$ Point mal classé;
+			\end{itemize}
+
+			\item[--] Dans le cas ou le problème n'est pas séparable linéairement, on peut dire donc que
+			$\exists j \quad 1 < \xi_j$
+
+			\item[--] Les différents $\xi_i$ peuvent être très grand. Il faut donc les pénaliser au moment de l'optimisation. Le problème devient donc:
+			\begin{equation}
+				\begin{aligned}
+				& \min_{\textbf{w}, \xi_1,\dots,\xi_n \in \mathbb{R}^+}
+				& & {\vert\vert \textbf{w} \vert\vert}^2 + C.\sum_{i=1,\dots,n}\xi_i\\
+				& \text{sous contrainte}
+				& & Y^i.(\textbf{w}.\textbf{X}^i + b) - \xi_i \geq 1 - \xi_i , \forall i = 1, \dots, n.
+				\end{aligned}
+			\end{equation}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Cas de $C$.}
+		\begin{itemize}
+			\item[--] Formellement on lâche du ``mou''. On accepte des fois que
+			$$\exists k \; Y^k.(\textbf{w}.\textbf{X}^k + b) < 1$$
+			\item[--] On peut écrire ceci autrement:
+			$$\forall i=1,\dots,n \quad \exists \xi_i > 0 \quad Y^i.(\textbf{w}.\textbf{X}^i + b) \geq 1 - \xi_i$$
+
+			\item[--] Il y a donc trois cas pour $ \xi_i $:
+			\begin{itemize}
+				\item[-] $\xi_i = 0 \Rightarrow$ Point bien classé;
+				\item[-] $0 < \xi_i \leq 1 \Rightarrow$ Point en dehors de la marge;
+				\item[-] $1 < \xi_i \Rightarrow$ Point mal classé;
+			\end{itemize}
+
+			\item[--] Dans le cas ou le problème n'est pas séparable linéairement, on peut dire donc que
+			$\exists j \quad 1 < \xi_j$
+
+			\item[--] Les différents $\xi_i$ peuvent être très grand. Il faut donc les pénaliser au moment de l'optimisation. Le problème devient donc:
+			\begin{equation}
+				\begin{aligned}
+				& \min_{\textbf{w}, \xi_1,\dots,\xi_n \in \mathbb{R}^+}
+				& & {\vert\vert \textbf{w} \vert\vert}^2 + C.\sum_{i=1,\dots,n}\xi_i\\
+				& \text{sous contrainte}
+				& & Y^i.(\textbf{w}.\textbf{X}^i + b) - \xi_i \geq 1 - \xi_i , \forall i = 1, \dots, n.
+				\end{aligned}
+			\end{equation}
+		\end{itemize}
+	\end{frame}
 	\subsection[kernel]{Kernel SVM}
 	\begin{frame}{Changement d'espace}
 
@@ -327,10 +476,10 @@
 	\begin{frame}{Pourquoi sélectionner les attributs?}
 		Les espaces à très grande dimension ne resemble pas au plan ou au volume:
 		\begin{itemize}
-			\item[-]<1-> Les calculs durent plus de temps,
-			\item[-]<2-> Il y a moins de volume à l'intérieur; si on compare le volume contenu dans une sphère et le volume de l'hypercube circonscrit:
+			\item[--]<1-> Les calculs durent plus de temps,
+			\item[--]<2-> Il y a moins de volume à l'intérieur; si on compare le volume contenu dans une sphère et le volume de l'hypercube circonscrit:
 			$$\frac{V(\mathbb{B}_{2}(r))}{V(\mathbb{B}_{\infty}(r))}\xrightarrow[d \to \infty]{} 0$$
-			\item[-]<3-> La distance euclidienne n'a plus de sens en très grande dimension~\cite{Domingos:2012:FUT:2347736.2347755}.
+			\item[--]<3-> La distance euclidienne n'a plus de sens en très grande dimension~\cite{Domingos:2012:FUT:2347736.2347755}.
 		\end{itemize}
 	\end{frame}
 
@@ -351,8 +500,8 @@
 	\subsection[filter approach]{Approche par filtre}
 	\begin{frame}{Approche par filtre}
 		\begin{itemize}
-			\item[-] Corrélation: un bon sous-ensemble contient des attributs pas très corrélés entre eux $\longrightarrow$ on élimine les variables redondantes;
-			\item[-] Relief: qualification d un attribut en fonction de comment ses valeurs permettent de distinguer des points qui sont proches.
+			\item[--] Corrélation: un bon sous-ensemble contient des attributs pas très corrélés entre eux $\longrightarrow$ on élimine les variables redondantes;
+			\item[--] Relief: qualification d un attribut en fonction de comment ses valeurs permettent de distinguer des points qui sont proches.
 		\end{itemize}
 	\end{frame}
 
@@ -375,7 +524,7 @@
 		\item<1-> On sélectionne le meilleur attribut;
 		\item<2-> On lui rajoutte l'attribut qui forme la meilleur paire;
 		\item<3-> On continue à rajoutter les attributs de manière à avoir à l'itération $k$ le meilleur $k$-tuple;
-		\item[-]<4-> Le problème est que l'on peut ratter en procédant ainsi au meilleur ensemble.
+		\item[--]<4-> Le problème est que l'on peut ratter en procédant ainsi au meilleur ensemble.
 		\end{enumerate}
 	\end{frame}
 
@@ -412,7 +561,7 @@
 		\item<1-> On élimine le attribut qui ne rapporte pas beaucoup;
 		\item<2-> On réitère de façon à ce que qu'à l'itération $k$ on aura éleminé les $k$ pire attribut;
 		\item<3-> On continue jusqu'à ce qu'il ne reste plus qu'un attribut ou un nombre donné.
-		\item[-]<4-> On rencontre le même problèmes qu'avant.
+		\item[--]<4-> On rencontre le même problèmes qu'avant.
 		\end{enumerate}
 	\end{frame}
 
