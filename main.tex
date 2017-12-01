@@ -21,11 +21,8 @@
 
 \usepackage{amssymb}
 \usepackage{amsmath}
-
+\usepackage{mathrsfs}
 \usepackage{mathtools}
-\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
-\DeclarePairedDelimiter\norm{\vert\vert}{\vert\vert}
-\DeclarePairedDelimiter\abs{\vert}{\vert}
 
 
 \usepackage{pdfpages}
@@ -134,7 +131,7 @@
 			\item[-]<1-> On observe $n$ échantillons: $\Big((X^i, Y^i)\Big)_{i=1,\dots,n}$,
 			\item[-]<2-> Sachant une instance $X^j = \begin{pmatrix}
 			X_1^j\\
-			\vdots\\
+			\vdots \\
 			X_d^j
 			\end{pmatrix}$, il faut prédire sa classe $Y^j$ et sa probabilité.
 		\end{itemize}
@@ -148,8 +145,8 @@
 			\end{center}
 		\end{figure}
 		\begin{itemize}
-			\item[-]<1-> On observe que les instances $(X^i)_{i=1,\dots,n}$ sans les classes $\longrightarrow$ Classification non supervisée,
-			\item[-]<2-> On observe des instances et leurs classes respectives $\Big((X^i, Y^i)\Big)_{i=1,\dots,n}$ $\longrightarrow$ Classification supervisée.
+			\item[-]<1-> On observe que les instances ${(X^i)}_{i=1,\dots,n}$ sans les classes $\longrightarrow$ Classification non supervisée,
+			\item[-]<2-> On observe des instances et leurs classes respectives ${\Big((X^i, Y^i)\Big)}_{i=1,\dots,n}$ $\longrightarrow$ Classification supervisée.
 		\end{itemize}
 	\end{frame}
 
@@ -213,16 +210,103 @@
 	\subsection[linear]{SVM linéaire}
 	\begin{frame}{Mais c'est quoi donc ce SVM?}
 		\begin{itemize}
-			\item[-] SVM: Support Vector Machines;
+			\item[-] SVM\@: Support Vector Machines;
 			\item[-] C'est donc un vecteur support?
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{Séparation de données}
+	\begin{frame}{Séparateur}
+		On se place dans le cas de classification binaires:
+		$$ X^i \in \mathbb{R}^d , \quad \forall i=1,\dots,n$$
+		$$ Y^i \in \{-1, +1\} , \quad \forall i=1,\dots,n$$
 		\begin{itemize}
-			\item[-] SVM: Support Vector Machines;
-			\item[-] C'est donc un vecteur support?
+			\item[-]On cherche une fonction qui modélise la probabilité
+			$$f: x \mapsto f(x) = (+1) \times p(1\vert x) + (-1) \times p(-1\vert x)$$
+			à partir duquel on en déduit le décideur:
+			\begin{align*}
+				D: \mathbb{R}^d &\rightarrow \{-1, +1\} \\
+				x &\mapsto D(x) = sign(f(x))
+			\end{align*}
+			\item[-] Le séparateur est la courbe qui vérifie:
+			\begin{align*}
+				\mathscr{S} &\triangleq \{X \in \mathbb{R}^d: f(X) = 0\} \\
+							&= \{X \in \mathbb{R}^d: p(1\vert x) = p(-1\vert x)\}
+			\end{align*}
 		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Séparateur}
+		\begin{figure}[H]
+			\ffigbox[\FBwidth]
+			{
+				\begin{subfloatrow}[2]
+					\ffigbox[\FBwidth]
+					{
+						\includegraphics[width=.45\textwidth]{sample_svm}
+					}
+					{
+						\caption{Echantillons à séparer.}\label{fig::sample_sep}
+					}
+					\ffigbox[\FBwidth]
+					{
+						\includegraphics[width=.45\textwidth]{separators}
+					}
+					{
+						\caption{Examples de séparateurs possible.}\label{fig::sep_ex}
+					}
+				\end{subfloatrow}
+			}
+			{
+				\caption{\label{fig::separators} Example de séparation de données.}
+			}
+		\end{figure}
+	\end{frame}
+
+	\begin{frame}{Choix du séparateur}
+		\begin{itemize}
+			\item[-] Il y a une infinité de modèle de $f(X)$ possible.
+			\item[-] Le choix le plus naïf serait:
+			\begin{equation*}
+				f = \sum_{i=1,\dots,n} Y^i . \delta_{X^i}
+			\end{equation*}
+			Par contre ce classifieur n'a pas de pourvoir de généralization. En effet:
+			\begin{gather*}
+				\widetilde{x} \leftarrow \sum_{i=1,\dots,n} X^i \notin \{X^i, \forall i=1,\dots,n\}\\
+				\Rightarrow f(\widetilde{x}) = 0
+			\end{gather*}
+			\item[-] On s'intéresse ici au séparateur linéaire:
+			\begin{align*}
+				f_{w, b}: \mathbb{R}^d &\rightarrow \{-1, 0, +1\} \\
+				x &\mapsto f_{w, b}(x) = w.x + b
+			\end{align*}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{Séparateur linéaire}
+		\begin{figure}[H]
+			\ffigbox[\FBwidth]
+			{
+				\begin{subfloatrow}[2]
+					\ffigbox[\FBwidth]
+					{
+						\includegraphics[width=.45\textwidth]{sample_svm}
+					}
+					{
+						\caption{Echantillons à séparer.}\label{fig::sample_sep2}
+					}
+					\ffigbox[\FBwidth]
+					{
+						\includegraphics[width=.45\textwidth]{linear_separation}
+					}
+					{
+						\caption{Examples de séparateurs linéaire possible.}\label{fig::lin_sep}
+					}
+				\end{subfloatrow}
+			}
+			{
+				\caption{\label{fig::lin_separators} Example de séparation linéaire de données.}
+			}
+		\end{figure}
 	\end{frame}
 
 	\subsection[kernel]{Kernel SVM}
@@ -296,7 +380,7 @@
 	\end{frame}
 
 	\begin{frame}{SFS}
-		\begin{block}{Exemple}
+		\begin{block}{Example}
 			\begin{longtable}{c c c c c}
 				\toprule
 				attributs sélectionés & $1$ & $2$ & $3$ & $4$\\
@@ -334,17 +418,17 @@
 
 	\begin{frame}{Comment résoudre le problème donc?}
 		\begin{itemize}
-			\item<1-> Combinaison SFS + SBE: sélection Plus-L-Moins-R:
+			\item<1-> Combinaison SFS + SBE\@: sélection Plus-L-Moins-R\@:
 			\begin{itemize}
-				\item Si $L > R$, on commence avec un ensemble vide, on ajoute L attributs puis on en enlève R,
-				\item Si $L < R$, on commence avec tous les attributs, on enlève R attributs puis on en rajoute L;
+				\item Si $L > R$, on commence avec un ensemble vide, on ajoute L attributs puis on en enlève R\@,
+				\item Si $L < R$, on commence avec tous les attributs, on enlève R attributs puis on en rajoute L\@;
 			\end{itemize}
 			\item<2-> On garantit la convergence vers une solution unique:
 			\begin{itemize}
 				\item On peut vérifier que SFS et SBE ne se contredisent pas.
 				\item On peut procéder comme dans l'example:
-				\begin{block}{Exemple}
-					Si SFS veut ajouter un attribut, il vérifie qu'il n'a pas été éliminé par SBE. Si oui, il prend le 2$^{\text{ème}}$ meilleur et ainsi de suite.
+				\begin{block}{Example}
+					Si SFS veut ajouter un attribut, il vérifie qu'il n'a pas été éliminé par SBE\@. Si oui, il prend le 2$^{\text{ème}}$ meilleur et ainsi de suite.
 				\end{block}
 			\end{itemize}
 		\end{itemize}

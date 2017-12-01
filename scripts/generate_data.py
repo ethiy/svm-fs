@@ -12,23 +12,25 @@ def generate_guassian(mean, covar, samples, color, label, marker):
 
 def main():
     generate_guassian(
-        [175, 80],
+        [200, 80],
         [[25, 30], [15, 12]],
-        500,
+        50,
         'blue',
-        'Men',
+        '+1',
         ','
     )
     generate_guassian(
-        [169, 69],
+        [170, 69],
         [[20, 30], [15, 10]],
-        500,
+        50,
         'red',
-        'Women',
+        '-1',
         '^'
     )
-    plt.xlabel('Height (cm)')
-    plt.ylabel('Weight (Kg)')
+
+    # plt.plot([180, 190], [40, 100], 'g--')
+    # plt.plot([190, 185], [40, 100], 'c--')
+    # plt.plot([185, 185], [40, 100], 'm--')
     plt.legend()
 
     plt.show()
