@@ -192,7 +192,7 @@
 			}
 		\end{figure}
 	\end{frame}
-	
+
 	\begin{frame}{Pourquoi classifier?}
 		\begin{figure}[H]
 			\includegraphics[width=.7\textwidth]{pc_classification}
@@ -274,7 +274,7 @@
 			\end{equation*}
 			Par contre ce classifieur n'a pas de pourvoir de généralization. En effet:
 			\begin{gather*}
-				\widetilde{x} \leftarrow \sum_{i=1,\dots,n} X^i \notin \{X^i, \forall i=1,\dots,n\}\\
+				\widetilde{x} \leftarrow \sum_{i=1,\dots,n} X^i \notin \{X^i, \forall i=1,\dots,n\} \\
 				\Rightarrow f(\widetilde{x}) = 0
 			\end{gather*}
 			\item[--] On s'intéresse ici au séparateur linéaire:
@@ -425,7 +425,7 @@
 				& \min_{\textbf{w}, \xi_1,\dots,\xi_n \in \mathbb{R}^+}
 				& & {\vert\vert \textbf{w} \vert\vert}^2 + C.\sum_{i=1,\dots,n}\xi_i\\
 				& \text{sous contrainte}
-				& & Y^i.(\textbf{w}.\textbf{X}^i + b) - \xi_i \geq 1 - \xi_i , \forall i = 1, \dots, n.
+				& & Y^i.(\textbf{w}.\textbf{X}^i + b) \geq 1 - \xi_i , \forall i = 1, \dots, n.
 				\end{aligned}
 			\end{equation}
 		\end{itemize}
@@ -433,30 +433,36 @@
 
 	\begin{frame}{Cas de $C$.}
 		\begin{itemize}
-			\item[--] Formellement on lâche du ``mou''. On accepte des fois que
-			$$\exists k \; Y^k.(\textbf{w}.\textbf{X}^k + b) < 1$$
-			\item[--] On peut écrire ceci autrement:
-			$$\forall i=1,\dots,n \quad \exists \xi_i > 0 \quad Y^i.(\textbf{w}.\textbf{X}^i + b) \geq 1 - \xi_i$$
-
-			\item[--] Il y a donc trois cas pour $ \xi_i $:
-			\begin{itemize}
-				\item[-] $\xi_i = 0 \Rightarrow$ Point bien classé;
-				\item[-] $0 < \xi_i \leq 1 \Rightarrow$ Point en dehors de la marge;
-				\item[-] $1 < \xi_i \Rightarrow$ Point mal classé;
-			\end{itemize}
-
-			\item[--] Dans le cas ou le problème n'est pas séparable linéairement, on peut dire donc que
-			$\exists j \quad 1 < \xi_j$
-
-			\item[--] Les différents $\xi_i$ peuvent être très grand. Il faut donc les pénaliser au moment de l'optimisation. Le problème devient donc:
+			\item[--]
+		\end{itemize}
+	\end{frame}
+	\begin{frame}{Optimization Quadratic! On peut faire mieux.}
+		\begin{itemize}
+			\item[--] Problème primal:
 			\begin{equation}
 				\begin{aligned}
 				& \min_{\textbf{w}, \xi_1,\dots,\xi_n \in \mathbb{R}^+}
-				& & {\vert\vert \textbf{w} \vert\vert}^2 + C.\sum_{i=1,\dots,n}\xi_i\\
+				& & {\vert\vert \textbf{w} \vert\vert}^2 + C.\sum_{i=1,\dots,n}\xi_i \\
 				& \text{sous contrainte}
-				& & Y^i.(\textbf{w}.\textbf{X}^i + b) - \xi_i \geq 1 - \xi_i , \forall i = 1, \dots, n.
+				& & Y^i.(\textbf{w}.\textbf{X}^i + b) \geq 1 - \xi_i , \forall i = 1, \dots, n.
 				\end{aligned}
 			\end{equation}
+            \item[--] Problème dual:
+            \begin{equation}
+				\begin{aligned}
+				& \max_{0 \leq \alpha_i \leq C ,\forall i=1,\dots,n}
+				& & \sum_{i=1,\dots,n} \alpha_i - \frac{1}{2}.\sum_{l,p=1,\dots,n}\alpha_l.\alpha_p.Y^l.Y^p.(X^l.X^p)\\
+				& \text{sous contrainte}
+				& & \sum_{i=1,\dots,n}Y^i.\alpha_i=0
+				\end{aligned}
+			\end{equation}
+            \item[--] Ce dernier est un problème d'optimisation linéaire qu'on sait résoudre.
+		\end{itemize}
+	\end{frame}
+    \begin{frame}{Algorithmes en Pratiques}
+		\begin{itemize}
+			\item[--] Problème Primale: SGD.
+            \item[--] Problème Primale: SMO et dérivées.
 		\end{itemize}
 	\end{frame}
 	\subsection[kernel]{Kernel SVM}
@@ -480,7 +486,7 @@
 			\item[--]<1-> Les calculs durent plus de temps,
 			\item[--]<2-> Il y a moins de volume à l'intérieur; si on compare le volume contenu dans une sphère et le volume de l'hypercube circonscrit:
 			$$\frac{V(\mathbb{B}_{2}(r))}{V(\mathbb{B}_{\infty}(r))}\xrightarrow[d \to \infty]{} 0$$
-			\item[--]<3-> La distance euclidienne n'a plus de sens en très grande dimension~\cite{Domingos:2012:FUT:2347736.2347755}.
+			\item[--]<3-> La distance Euclidienne n'a plus de sens en très grande dimension $\longrightarrow$ moins d'attributs on a mieux sont les résultas~\cite{Domingos:2012:FUT:2347736.2347755}.
 		\end{itemize}
 	\end{frame}
 
@@ -508,12 +514,12 @@
 
 	\subsection[integrated approach]{Approche intégrée}
 	\begin{frame}{Approche intégrée: cas du SVM-RFE}
-		On repose par exemple sur les poids du SVM $w$:
+		On repose par exemple sur les poids du SVM $\textbf{w}$:
 		\begin{enumerate}
-			\item<1-> On entraine le SVM $\longrightarrow$ on obtient le $w$.
+			\item<1-> On entraine le SVM $\longrightarrow$ on obtient le $\textbf{w}$.
 			\item<2-> On choisit l'attribut $i$ avec le plus faible poids:
-			$$ i \leftarrow \arg \min_{k=1,\dots,d}{\vert\vert w_k\vert\vert}$$.
-			\item<3-> On élémine ce minimum.
+			$$ i \leftarrow \arg \min_{k=1,\dots,d}{\vert\vert w_k\vert\vert}$$
+			\item<3-> On élimine l'attribut $i$.
 		\end{enumerate}
 		On procède donc par récurence jusqu'au nombre d'attributs cherché~\cite{Guyon2002}.
 	\end{frame}
