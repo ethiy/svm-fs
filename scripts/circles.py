@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import math
+
 import sklearn.datasets
 import numpy as np
 from matplotlib import cm
@@ -13,9 +15,9 @@ def main():
 
     fig = plt.figure()
     ax = Axes3D(fig)
-    ax.scatter(X[y == 1, 0], X[y == 1, 1], pow(X[y == 1, 0], 2)+pow(X[y == 1, 1], 2), c="red",
+    ax.scatter(pow(X[y == 1, 0], 2), pow(X[y == 1, 1], 2), math.sqrt(2)*pow(X[y == 1, 0], 2)*pow(X[y == 1, 1], 2), c="red",
                 s=20, edgecolor='k')
-    ax.scatter(X[y == 0, 0], X[y == 0, 1], pow(X[y == 0, 0], 2)+pow(X[y == 0, 1], 2), c="blue",
+    ax.scatter(pow(X[y == 0, 0], 2), pow(X[y == 0, 1], 2), math.sqrt(2)*pow(X[y == 0, 0], 2)*pow(X[y == 0, 1], 2), c="blue",
                 s=20, edgecolor='k')
 
     XX, YY = np.meshgrid(np.arange(-1.5, 1.5, .01), np.arange(-1.5, 1.5, .01))
