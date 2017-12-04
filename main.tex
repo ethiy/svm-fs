@@ -398,7 +398,7 @@
 	\begin{frame}{Cas non séparable.}
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{stable_margin}
-			\caption{\label{fig::stable_margin} Le séparateur linéaire SVM.}
+			\caption{\label{fig::stable_margin} La marge du séparateur linéaire SVM.}
 		\end{figure}
 	\end{frame}
 
@@ -414,10 +414,11 @@
 				\item[-] $\xi_i = 0 \Rightarrow$ Point bien classé;
 				\item[-] $0 < \xi_i \leq 1 \Rightarrow$ Point en dehors de la marge;
 				\item[-] $1 < \xi_i \Rightarrow$ Point mal classé;
+				\item[-] $2 < \xi_i \Rightarrow$ Point non séparable;
 			\end{itemize}
 
-			\item[--] Dans le cas ou le problème n'est pas séparable linéairement, on peut dire donc que
-			$\exists j \quad 1 < \xi_j$
+			\item[--] Dans le cas ou le problème n'est pas séparable linéairement, on peut déduire que
+			$\exists j \quad 2 < \xi_j$
 
 			\item[--] Les différents $\xi_i$ peuvent être très grand. Il faut donc les pénaliser au moment de l'optimisation. Le problème devient donc:
 			\begin{equation}
@@ -431,14 +432,16 @@
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{Cas de $C$.}
+	\begin{frame}{Cas de Constante de régularisation.}
 		\begin{itemize}
-			\item[--]
+			\item[--] $C \ll 1 \Longrightarrow$ moins de pénalisation sur les variables de ressort $\Longrightarrow$ marge très grande;
+			\item[--] $C \gg 1 \Longrightarrow$ plus de pénalisation sur les variables de ressort $\Longrightarrow$ marge serrée grande;
+			\item[--] $C=\infty \Longrightarrow$ pénalisation complète sur les variables de ressort $\Longrightarrow$ marge.
 		\end{itemize}
 	\end{frame}
 	\begin{frame}{Optimization Quadratic! On peut faire mieux.}
 		\begin{itemize}
-			\item[--] Problème primal:
+			\item[--] Problème primal (Quadratique):
 			\begin{equation}
 				\begin{aligned}
 				& \min_{\textbf{w}, \xi_1,\dots,\xi_n \in \mathbb{R}^+}
@@ -447,8 +450,8 @@
 				& & Y^i.(\textbf{w}.\textbf{X}^i + b) \geq 1 - \xi_i , \forall i = 1, \dots, n.
 				\end{aligned}
 			\end{equation}
-            \item[--] Problème dual:
-            \begin{equation}
+			\item[--] Problème dual:
+			\begin{equation}
 				\begin{aligned}
 				& \max_{0 \leq \alpha_i \leq C ,\forall i=1,\dots,n}
 				& & \sum_{i=1,\dots,n} \alpha_i - \frac{1}{2}.\sum_{l,p=1,\dots,n}\alpha_l.\alpha_p.Y^l.Y^p.(X^l.X^p)\\
@@ -456,13 +459,13 @@
 				& & \sum_{i=1,\dots,n}Y^i.\alpha_i=0
 				\end{aligned}
 			\end{equation}
-            \item[--] Ce dernier est un problème d'optimisation linéaire qu'on sait résoudre.
+            \item[--] Ce dernier est un problème d'optimisation \textit{linéaire} qu'on sait résoudre.
 		\end{itemize}
 	\end{frame}
     \begin{frame}{Algorithmes en Pratiques}
 		\begin{itemize}
-			\item[--] Problème Primale: SGD.
-            \item[--] Problème Primale: SMO et dérivées.
+			\item[--] Problème Primal: Stochstic Gradient Descent~\cite{bottou2010} (SGD).
+            \item[--] Problème Dual: Sequential minimal Optimization (SMO)~\cite{platt1998sequential} et dérivées.
 		\end{itemize}
 	\end{frame}
 	\subsection[kernel]{Kernel SVM}
