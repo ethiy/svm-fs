@@ -436,7 +436,7 @@
 		\begin{itemize}
 			\item[--] $C \ll 1 \Longrightarrow$ moins de pénalisation sur les variables de ressort $\Longrightarrow$ marge très grande;
 			\item[--] $C \gg 1 \Longrightarrow$ plus de pénalisation sur les variables de ressort $\Longrightarrow$ marge serrée grande;
-			\item[--] $C=\infty \Longrightarrow$ pénalisation complète sur les variables de ressort $\Longrightarrow$ marge.
+			\item[--] $C=\infty \Longrightarrow$ pénalisation complète sur les variables de ressort $\Longrightarrow$ marge dure.
 		\end{itemize}
 	\end{frame}
 	\begin{frame}{Optimization Quadratic! On peut faire mieux.}
@@ -469,12 +469,190 @@
 		\end{itemize}
 	\end{frame}
 	\subsection[kernel]{Kernel SVM}
-	\begin{frame}{Changement d'espace}
 
+	\begin{frame}{Changement d'espace}
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[width=.7\textwidth]{circles}
+				\caption{\label{fig::circles_3} Quelle transformation à appliquer pour obtenir des instances séparables linéairement.}
+			\end{center}
+		\end{figure}
+	\end{frame}
+	\begin{frame}{Changement d'espace}
+		\begin{itemize}
+			\item[--] Trouver la transformation $Phi$:
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{separation_pol}
+				\caption{\label{fig::kernel_polar} Exemple de changement d'espace avec une transfomation $\Phi$.}
+			\end{figure}
+			\item[--] \begin{align*}
+				\Phi: \mathbb{R}^2 &\rightarrow \mathbb{R}^2 \\
+				\begin{pmatrix}
+					x \\
+					y
+				\end{pmatrix} &\mapsto \begin{pmatrix}
+					x^2 + y^2 \\
+					\arctan(x/y)
+				\end{pmatrix}
+			\end{align*}
+		\end{itemize}
+	\end{frame}
+	\begin{frame}{Changement d'espace}
+		\begin{itemize}
+			\item[--] Trouver la transformation $Phi$:
+			\begin{figure}[H]
+				\ffigbox[\FBwidth]
+				{
+					\begin{subfloatrow}[2]
+						\ffigbox[\FBwidth]
+						{
+							\includegraphics[width=.45\textwidth]{map_L_2_separation_1}
+						}
+						{
+							\caption{Vue de haut.}\label{fig::mano_take_1}
+						}
+						\ffigbox[\FBwidth]
+						{
+							\includegraphics[width=.45\textwidth]{map_L_2_separation}
+						}
+						{
+							\caption{Vue transversale.}\label{fig::mano_take_2}
+						}
+					\end{subfloatrow}
+				}
+				{
+					\caption{\label{fig::kernel_a_la_mano}  Exemple de changement d'espace avec une transfomation $\Phi$..}
+				}
+			\end{figure}
+		\end{itemize}
+	\end{frame}
+	\begin{frame}{Changement d'espace}
+		\begin{itemize}
+			\item[--]<1-> Séparation linéaire dans le nouveau espace:
+			\begin{figure}[H]
+				\includegraphics[width=.5\textwidth]{separation_x_2_y_2}
+				\caption{\label{fig::mano_take_3} Hyperplan séparant les deux classes dans le nouveau espace.}
+
+			\end{figure}
+			\item[--]<2-> \begin{align*}
+				\Phi: \mathbb{R}^2 &\rightarrow \mathbb{R}^3 \\
+				\begin{pmatrix}
+					x \\
+					y
+				\end{pmatrix} &\mapsto \begin{pmatrix}
+					x \\
+					y \\
+					x^2 + y^2
+				\end{pmatrix}
+			\end{align*}
+		\end{itemize}
+	\end{frame}
+	\begin{frame}{Changement d'espace}
+		\begin{itemize}
+			\item[--] Trouver la transformation $Phi$:
+			\begin{figure}[H]
+				\ffigbox[\FBwidth]
+				{
+					\begin{subfloatrow}[2]
+						\ffigbox[\FBwidth]
+						{
+							\includegraphics[width=.45\textwidth]{separation_pol_2_1}
+						}
+						{
+							\caption{Vue de haut.}\label{fig::pol_take_1}
+						}
+						\ffigbox[\FBwidth]
+						{
+							\includegraphics[width=.45\textwidth]{separation_pol_2_2}
+						}
+						{
+							\caption{Vue transversale.}\label{fig::pol_take_2}
+						}
+					\end{subfloatrow}
+				}
+				{
+					\caption{\label{fig::kernel_poly}  Exemple de changement d'espace avec une transfomation $\Phi$..}
+				}
+			\end{figure}
+		\end{itemize}
+	\end{frame}
+	\begin{frame}{Changement d'espace}
+		\begin{itemize}
+			\item[--]<1-> Séparation linéaire dans le nouveau espace:
+			\begin{figure}[H]
+				\includegraphics[width=.5\textwidth]{separation_pol_2_3}
+				\caption{\label{fig::pol_take_3} Hyperplan séparant les deux classes dans le nouveau espace.}
+
+			\end{figure}
+			\item[--]<2-> \begin{align*}
+				\Phi: \mathbb{R}^2 &\rightarrow \mathbb{R}^3 \\
+				\begin{pmatrix}
+					x \\
+					y
+				\end{pmatrix} &\mapsto \begin{pmatrix}
+					x^2 \\
+					y^2 \\
+					\sqrt{2}.x.y
+				\end{pmatrix}
+			\end{align*}
+		\end{itemize}
+	\end{frame}
+	\begin{frame}{Changement d'espace}
+		\begin{itemize}
+			\item[--] Le but du changement d'espace est de pouvoir séparer linéairement le problème dans un nouveau espace où les distances Euclidiennes ont un sens;
+			\item[--] On transforme donc les instances avec une application comme suit:
+			\begin{align*}
+				\Phi: \mathbb{R}^d &\rightarrow \mathbb{R}^p \\
+				X &\mapsto \Phi(X)
+			\end{align*}
+			où $p\geq d$.
+		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{Kernel trick}
+	\begin{frame}{Que devient donc le problème d'optimisation:}
+		\begin{itemize}
+			\item[--] Problème primal:
+			\begin{equation}
+				\begin{aligned}
+				& \min_{\textbf{w}, \xi_1,\dots,\xi_n \in \mathbb{R}^+}
+				& & {\vert\vert \textbf{w} \vert\vert}^2 + C.\sum_{i=1,\dots,n}\xi_i \\
+				& \text{sous contrainte}
+				& & Y^i.(\textbf{w}.\Phi(\textbf{X}^i) + b) \geq 1 - \xi_i , \forall i = 1, \dots, n.
+				\end{aligned}
+			\end{equation}
+			\item[--] Problème dual:
+			\begin{equation}
+				\begin{aligned}
+				& \max_{0 \leq \alpha_i \leq C ,\forall i=1,\dots,n}
+				& & \sum_{i=1,\dots,n} \alpha_i - \frac{1}{2}.\sum_{l,p=1,\dots,n}\alpha_l.\alpha_p.Y^l.Y^p.(\Phi(X^l).\Phi(X^p))\\
+				& \text{sous contrainte}
+				& & \sum_{i=1,\dots,n}Y^i.\alpha_i=0
+				\end{aligned}
+			\end{equation}
+			\item[--] Que peut on relever sur ce dernier problème d'optimization
+		\end{itemize}
+	\end{frame}
 
+	\begin{frame}{Kernels Trick}
+		\begin{itemize}
+			\item[--]<1-> La transformation $\Phi$ ne nous intéresse pas, en soi;
+			\item[--]<2-> Ce sont les distances Euclidienne dans le nouveau espace:
+			$$\forall X, Y \in \mathbb{R}^d$$
+			\begin{align*}
+				\vert\vert\Phi(X) - \Phi(Y)\vert\vert_2^2 &= \vert\vert\Phi(X)\vert\vert_2^2 + \vert\vert\Phi(Y)\vert\vert_2^2 - 2 \vert\vert\Phi(X)\vert\vert.\vert\vert\Phi(Y)\vert\vert_2^2 \\
+				 &= \Phi(X)^t.\Phi(X) + {\Phi(Y)}^t.\Phi(Y) - 2 {\Phi(X)}^t.\Phi(Y)
+			\end{align*}
+			\item[--]<3-> Il faut juste calculer le nouveau produit scalaire:
+			\begin{equation}
+				\forall X, Y \in \mathbb{R}^d \quad k(X, Y) \triangleq \Phi(X)^t.\Phi(Y)
+			\end{equation}
+			où:
+			\begin{align*}
+				k: \mathbb{R}^d \times \mathbb{R}^d &\rightarrow \mathbb{R}^+ \\
+				(X, Y) &\mapsto k(X, Y)
+			\end{align*}
+			est ce qu'on appelle le \textit{kernel}.
+		\end{itemize}
 	\end{frame}
 
 	\begin{frame}{Kernels Usuels}
