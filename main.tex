@@ -580,7 +580,7 @@
 		\begin{itemize}
 			\item[--]<1-> Séparation linéaire dans le nouveau espace:
 			\begin{figure}[H]
-				\includegraphics[width=.5\textwidth]{separation_pol_2_3}
+				\includegraphics[width=.7\textwidth]{separation_pol_2_3}
 				\caption{\label{fig::pol_take_3} Hyperplan séparant les deux classes dans le nouveau espace.}
 
 			\end{figure}
@@ -640,11 +640,11 @@
 			$$\forall X, Y \in \mathbb{R}^d$$
 			\begin{align*}
 				\vert\vert\Phi(X) - \Phi(Y)\vert\vert_2^2 &= \vert\vert\Phi(X)\vert\vert_2^2 + \vert\vert\Phi(Y)\vert\vert_2^2 - 2 \vert\vert\Phi(X)\vert\vert.\vert\vert\Phi(Y)\vert\vert_2^2 \\
-				 &= \Phi(X)^t.\Phi(X) + {\Phi(Y)}^t.\Phi(Y) - 2 {\Phi(X)}^t.\Phi(Y)
+				 &= {\Phi(X)}^t.\Phi(X) + {\Phi(Y)}^t.\Phi(Y) - 2 {\Phi(X)}^t.\Phi(Y)
 			\end{align*}
 			\item[--]<3-> Il faut juste calculer le nouveau produit scalaire:
 			\begin{equation}
-				\forall X, Y \in \mathbb{R}^d \quad k(X, Y) \triangleq \Phi(X)^t.\Phi(Y)
+				\forall X, Y \in \mathbb{R}^d \quad k(X, Y) \triangleq {\Phi(X)}^t.\Phi(Y)
 			\end{equation}
 			où:
 			\begin{align*}
@@ -656,7 +656,54 @@
 	\end{frame}
 
 	\begin{frame}{Kernels Usuels}
+		\begin{itemize}
+			\item[--] Radial Basis Function (RBF):
+			\begin{equation}
+				k_{\gamma}(x,y) = \exp{-\gamma.\vert\vert x-y \vert\vert^2}
+			\end{equation}
+			\item[--] Kernel Polynomial:
+			\begin{equation}
+				k_{\gamma, c}(x,y) = (x^t.y + c)^{\gamma}
+			\end{equation}
+			\item[--] Kernel Sigmoidal:
+			\begin{equation}
+				k_{\gamma, c}(x,y) = \gamma.\tanh(x^t.y + c)
+			\end{equation}
+		\end{itemize}
+	\end{frame}
 
+	\begin{frame}{Kernels Usuels}
+		\begin{figure}[H]
+			\ffigbox[\FBwidth]
+			{
+				\begin{subfloatrow}[3]
+					\ffigbox[\FBwidth]
+					{
+						\includegraphics[width=.3\textwidth]{rbfs}
+					}
+					{
+						\caption{RBF avec différentes valeurs de $\gamma$.}\label{fig::rbfs}
+					}
+					\ffigbox[\FBwidth]
+					{
+						\includegraphics[width=.3\textwidth]{polys}
+					}
+					{
+						\caption{Kernels Polynomiaux avec différentes valeurs de $\gamma$ et $c$.}\label{fig::polys}
+					}
+					\ffigbox[\FBwidth]
+					{
+						\includegraphics[width=.3\textwidth]{tanhs}
+					}
+					{
+						\caption{Kernels Sigmoids avec différentes valeurs de $\gamma$ et $c$.}\label{fig::tanhs}
+					}
+				\end{subfloatrow}
+			}
+			{
+				\caption{\label{fig::usual_kernels}  Kernel usuels.}
+			}
+		\end{figure}
 	\end{frame}
 
 	\section[feature selection]{Sélection d'attributs}
