@@ -2,18 +2,25 @@
 # -*- coding: utf-8 -*-
 
 import sklearn.datasets
+import numpy as np
+from matplotlib import cm
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 
 def main():
     X, y = sklearn.datasets.make_circles(n_samples=1000, factor=.3, noise=.05)
 
-    plt.scatter(X[y == 1, 0], X[y == 1, 1], c="red",
+    fig = plt.figure()
+    ax = Axes3D(fig)
+    ax.scatter(X[y == 1, 0], X[y == 1, 1], pow(X[y == 1, 0], 2)+pow(X[y == 1, 1], 2), c="red",
                 s=20, edgecolor='k')
-    plt.scatter(X[y == 0, 0], X[y == 0, 1], c="blue",
+    ax.scatter(X[y == 0, 0], X[y == 0, 1], pow(X[y == 0, 0], 2)+pow(X[y == 0, 1], 2), c="blue",
                 s=20, edgecolor='k')
-    plt.xlabel("$x_1$")
-    plt.ylabel("$x_2$")
+
+    XX, YY = np.meshgrid(np.arange(-1.5, 1.5, .01), np.arange(-1.5, 1.5, .01))
+    ZZ = .5 * np.ones_like(XX/YY)
+    ax.plot_surface(XX, YY, ZZ, cmap='viridis', linewidth=0, antialiased=False, alpha=.5)
     plt.show()
 
 
