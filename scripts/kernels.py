@@ -7,10 +7,10 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 def main():
-    X = np.linspace(-10, 10, 10000)
-    plt.plot(X, 3 * np.tanh(X), c='g', label='gamma=3, c=0')
-    plt.plot(X, .5 * np.tanh(X + 2), c='r', label='gamma=1/2, c=2')
-    plt.plot(X, np.tanh(X + 1), c='b', label='gamma=1, c = 1')
+    X = np.linspace(-25, 25, 10000)
+    plt.plot(X, np.exp(- 10 * pow(X, 2)), c='g', label='gamma=10')
+    plt.plot(X, np.exp(- .5 * pow(X, 2)), c='r', label='gamma=1/2')
+    plt.plot(X, np.exp(- .01 * pow(X, 2)), c='b', label='gamma=1/100')
     plt.axhline(0, color='black', linestyle='--')
     plt.axvline(0, color='black', linestyle='--')
     plt.legend()

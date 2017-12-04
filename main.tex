@@ -521,7 +521,7 @@
 					\end{subfloatrow}
 				}
 				{
-					\caption{\label{fig::kernel_a_la_mano}  Exemple de changement d'espace avec une transfomation $\Phi$..}
+					\caption{\label{fig::kernel_a_la_mano}  Exemple de changement d'espace avec une transfomation $\Phi$.}
 				}
 			\end{figure}
 		\end{itemize}
@@ -571,7 +571,7 @@
 					\end{subfloatrow}
 				}
 				{
-					\caption{\label{fig::kernel_poly}  Exemple de changement d'espace avec une transfomation $\Phi$..}
+					\caption{\label{fig::kernel_poly}  Exemple de changement d'espace avec une transfomation $\Phi$.}
 				}
 			\end{figure}
 		\end{itemize}
@@ -676,32 +676,32 @@
 		\begin{figure}[H]
 			\ffigbox[\FBwidth]
 			{
-				\begin{subfloatrow}[3]
+				\begin{subfloatrow}[2]
 					\ffigbox[\FBwidth]
 					{
-						\includegraphics[width=.3\textwidth]{rbfs}
+						\includegraphics[width=.45\textwidth]{rbfs}
 					}
 					{
-						\caption{RBF avec différentes valeurs de $\gamma$.}\label{fig::rbfs}
-					}
-					\ffigbox[\FBwidth]
-					{
-						\includegraphics[width=.3\textwidth]{polys}
-					}
-					{
-						\caption{Kernels Polynomiaux avec différentes valeurs de $\gamma$ et $c$.}\label{fig::polys}
+						\caption*{RBF avec différentes valeurs de $\gamma$.}\label{fig::rbfs}
 					}
 					\ffigbox[\FBwidth]
 					{
-						\includegraphics[width=.3\textwidth]{tanhs}
+						\includegraphics[width=.45\textwidth]{polys}
 					}
 					{
-						\caption{Kernels Sigmoids avec différentes valeurs de $\gamma$ et $c$.}\label{fig::tanhs}
+						\caption*{Kernels Polynomiaux avec différentes valeurs de $\gamma$ et $c$.}\label{fig::polys}
 					}
 				\end{subfloatrow}
 			}
 			{
-				\caption{\label{fig::usual_kernels}  Kernel usuels.}
+				\caption*{}
+			}
+			\ffigbox[\FBwidth]
+			{
+				\includegraphics[width=.5\textwidth]{tanhs}
+			}
+			{
+				\caption*{Kernels Sigmoids avec différentes valeurs de $\gamma$ et $c$.}\label{fig::tanhs}
 			}
 		\end{figure}
 	\end{frame}
@@ -736,7 +736,7 @@
 	\begin{frame}{Approche par filtre}
 		\begin{itemize}
 			\item[--] Corrélation: un bon sous-ensemble contient des attributs pas très corrélés entre eux $\longrightarrow$ on élimine les variables redondantes;
-			\item[--] Relief: qualification d un attribut en fonction de comment ses valeurs permettent de distinguer des points qui sont proches.
+			\item[--] Relief: qualification d'un attribut en fonction de comment ses valeurs permettent de distinguer des points qui sont proches.
 		\end{itemize}
 	\end{frame}
 
