@@ -1,0 +1,135 @@
+#Reference labels (rows):1,2,3,4,5,6,7,8
+#Produced labels (columns):1,2,3,4,5,6,7,8
+64654,13255,1004,944,555,865,3850,12042
+8351,8014,709,35,50,96,541,1857
+476,322,15046,180,802,299,503,132
+2821,301,1555,324849,19937,48235,48201,12228
+43,0,616,4493,30376,5152,1066,241
+136,9,338,19480,6669,12378,3297,586
+2055,318,321,3805,267,1076,12747,5333
+314058,62853,5276,30609,8436,32802,211215,588441
+
+
+
+2017 avril 16 18:04:15  :  Application.logger  (INFO) otbcli_ComputeConfusionMatrix -in /media/gio/data/TP_ESGT/concatenateS2Zone_classif_class.tif -out /media/gio/data/TP_ESGT/evaluation_modele_RF_500_Class.csv -ref vector -ref.vector.in /media/gio/data/TP_ESGT/RGE-OCS.shp -ref.vector.field Class -ram 128 
+
+2017 avril 16 18:04:15  :  Application.logger  (INFO) Number of stream divisions : 1
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesRef[1] = 0
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesRef[2] = 1
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesRef[3] = 2
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesRef[4] = 3
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesRef[5] = 4
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesRef[6] = 5
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesRef[7] = 6
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesRef[8] = 7
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesProd[1] = 0
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesProd[2] = 1
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesProd[3] = 2
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesProd[4] = 3
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesProd[5] = 4
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesProd[6] = 5
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesProd[7] = 6
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) mapOfClassesProd[8] = 7
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Reference class labels ordered according to the rows of the output confusion matrix: #Reference labels (rows):1,2,3,4,5,6,7,8
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Produced class labels ordered according to the columns of the output confusion matrix: #Produced labels (columns):1,2,3,4,5,6,7,8
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Confusion matrix (rows = reference labels, columns = produced labels):
+       [   1] [   2] [   3] [   4] [   5] [   6] [   7] [   8] 
+[   1]  64654  13255   1004    944    555    865   3850  12042 
+[   2]   8351   8014    709     35     50     96    541   1857 
+[   3]    476    322  15046    180    802    299    503    132 
+[   4]   2821    301   1555 324849  19937  48235  48201  12228 
+[   5]     43      0    616   4493  30376   5152   1066    241 
+[   6]    136      9    338  19480   6669  12378   3297    586 
+[   7]   2055    318    321   3805    267   1076  12747   5333 
+[   8] 314058  62853   5276  30609   8436  32802 211215 588441 
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Precision of class [1] vs all: 0.164684
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Recall of class [1] vs all: 0.665377
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) F-score of class [1] vs all: 0.264022
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Precision of class [2] vs all: 0.0942026
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Recall of class [2] vs all: 0.407775
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) F-score of class [2] vs all: 0.153048
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Precision of class [3] vs all: 0.605108
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Recall of class [3] vs all: 0.847185
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) F-score of class [3] vs all: 0.705971
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Precision of class [4] vs all: 0.845092
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Recall of class [4] vs all: 0.709081
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) F-score of class [4] vs all: 0.771135
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Precision of class [5] vs all: 0.452751
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Recall of class [5] vs all: 0.723462
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) F-score of class [5] vs all: 0.556954
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Precision of class [6] vs all: 0.122672
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Recall of class [6] vs all: 0.288579
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) F-score of class [6] vs all: 0.172161
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Precision of class [7] vs all: 0.0452953
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Recall of class [7] vs all: 0.491744
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) F-score of class [7] vs all: 0.0829499
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Precision of class [8] vs all: 0.947784
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Recall of class [8] vs all: 0.469367
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) F-score of class [8] vs all: 0.627821
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Precision of the different classes: [0.164684, 0.0942026, 0.605108, 0.845092, 0.452751, 0.122672, 0.0452953, 0.947784]
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Recall of the different classes: [0.665377, 0.407775, 0.847185, 0.709081, 0.723462, 0.288579, 0.491744, 0.469367]
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) F-score of the different classes: [0.264022, 0.153048, 0.705971, 0.771135, 0.556954, 0.172161, 0.0829499, 0.627821]
+
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Kappa index: 0.375203
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Overall accuracy index: 0.539804
+
+2017 avril 16 18:04:16  :  Application.logger  (INFO) Execution took 1.00467 sec

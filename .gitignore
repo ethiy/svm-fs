@@ -221,3 +221,6 @@ TSWLatexianTemp*
 
 # python binaries
 *.pyc
+
+# iPython notebook
+*.ipynb_checkpoints
