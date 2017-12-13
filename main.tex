@@ -25,6 +25,7 @@
 \usepackage{mathtools}
 \usepackage{dsfont}
 \usepackage{bbold}
+\usepackage{breqn}
 
 
 \usepackage{pdfpages}
@@ -126,7 +127,7 @@
 		\begin{figure}[H]
 			\begin{center}
 				\includegraphics[width=.7\textwidth]{sample_2d}
-				\caption{\label{fig::sample_2d} Example de problème de classification: $2$ attributs et $2$ classes.}
+				\caption{\label{fig::sample_2d} exemple de problème de classification: $2$ attributs et $2$ classes.}
 			\end{center}
 		\end{figure}
 		\begin{itemize}
@@ -143,7 +144,7 @@
 		\begin{figure}[H]
 			\begin{center}
 				\includegraphics[width=.7\textwidth]{circles}
-				\caption{\label{fig::circles} Example de problème de classification non supervisée: Pas de classes mais une structure se dégage.}
+				\caption{\label{fig::circles} exemple de problème de classification non supervisée: Pas de classes mais une structure se dégage.}
 			\end{center}
 		\end{figure}
 		\begin{itemize}
@@ -196,7 +197,7 @@
 	\begin{frame}{Pourquoi classifier?}
 		\begin{figure}[H]
 			\includegraphics[width=.7\textwidth]{pc_classification}
-			\caption{\label{fig::pc_classif}Example de classification de nuage de point\cite{LANDRIEU2017102}.}
+			\caption{\label{fig::pc_classif}exemple de classification de nuage de point\cite{LANDRIEU2017102}.}
 		\end{figure}
 	\end{frame}
 
@@ -223,8 +224,14 @@
 		$$ X^i \in \mathbb{R}^d , \quad \forall i=1,\dots,n$$
 		$$ Y^i \in \{-1, +1\} , \quad \forall i=1,\dots,n$$
 		\begin{itemize}
-			\item[--]On cherche une fonction qui modélise la probabilité
-			$$f: x \mapsto f(x) = (+1) \times p(1\vert x) + (-1) \times p(-1\vert x)$$
+			\item[--]On cherche une fonction qui modélise la probabilité:
+			$$ \eta(x) = p(y = 1 \vert x) = 1 - p(y = 0 \vert x)$$
+			\item[--] Cela revient à modéliser aussi:
+			\begin{align*}
+				f: x \mapsto \mathbb{E}_Y(Y \vert X=x) &= \sum_{y=-1, +1} Y.p(Y\vert X=x)\\
+				&= (+1) \times p(1\vert x) + (-1) \times p(-1\vert x)
+			\end{align*}
+
 			à partir duquel on en déduit la fonction de décision:
 			\begin{align*}
 				D: \mathbb{R}^d &\rightarrow \{-1, +1\} \\
@@ -255,7 +262,7 @@
 						\includegraphics[width=.45\textwidth]{separators}
 					}
 					{
-						\caption{Séparateurs possible.}\label{fig::sep_ex}
+						\caption{Séparateurs possibles.}\label{fig::sep_ex}
 					}
 				\end{subfloatrow}
 			}
@@ -302,7 +309,7 @@
 						\includegraphics[width=.45\textwidth]{linear_separation}
 					}
 					{
-						\caption{Examples de séparateurs linéaire possible.}\label{fig::lin_sep}
+						\caption{exemples de séparateurs linéaire possible.}\label{fig::lin_sep}
 					}
 				\end{subfloatrow}
 			}
@@ -629,11 +636,11 @@
 				& & \sum_{i=1,\dots,n}Y^i.\alpha_i=0
 				\end{aligned}
 			\end{equation}
-			\item[--] Que peut on relever sur ce dernier problème d'optimization
+			\item[--] Que peut on relever sur ce dernier problème d'optimisation?
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{Kernels Trick}
+	\begin{frame}{Kernel Trick}
 		\begin{itemize}
 			\item[--]<1-> La transformation $\Phi$ ne nous intéresse pas, en soi;
 			\item[--]<2-> Ce sont les distances Euclidienne dans le nouveau espace:
@@ -742,14 +749,14 @@
 
 	\subsection[integrated approach]{Approche intégrée}
 	\begin{frame}{Approche intégrée: cas du SVM-RFE}
-		On repose par exemple sur les poids du SVM $\textbf{w}$:
+		On repose par exemple sur les poids du SVM $ --- i.e. \textbf{w}$:
 		\begin{enumerate}
 			\item<1-> On entraine le SVM $\longrightarrow$ on obtient le $\textbf{w}$.
 			\item<2-> On choisit l'attribut $i$ avec le plus faible poids:
 			$$ i \leftarrow \arg \min_{k=1,\dots,d}{\vert\vert w_k\vert\vert}$$
 			\item<3-> On élimine l'attribut $i$.
 		\end{enumerate}
-		On procède donc par récurence jusqu'au nombre d'attributs cherché~\cite{Guyon2002}.
+		On procède donc par récurrence jusqu'au nombre d'attributs cherché~\cite{Guyon2002}.
 	\end{frame}
 
 	\subsection[symbiotic approach]{Approche symbiotique}
@@ -757,14 +764,14 @@
 		Sélection ascendante (SFS\@: Sequential Forward Selection).
 		\begin{enumerate}
 		\item<1-> On sélectionne le meilleur attribut;
-		\item<2-> On lui rajoutte l'attribut qui forme la meilleur paire;
-		\item<3-> On continue à rajoutter les attributs de manière à avoir à l'itération $k$ le meilleur $k$-tuple;
-		\item[--]<4-> Le problème est que l'on peut ratter en procédant ainsi au meilleur ensemble.
+		\item<2-> On lui rajoute l'attribut qui forme la meilleur paire;
+		\item<3-> On continue à rajouter les attributs de manière à avoir à l'itération $k$ le meilleur $k$-tuple;
+		\item[--]<4-> Le problème est que l'on peut rater en procédant ainsi au meilleur ensemble.
 		\end{enumerate}
 	\end{frame}
 
 	\begin{frame}{SFS}
-		\begin{block}{Example}
+		\begin{block}{Exemple}
 			\begin{longtable}{c c c c c}
 				\toprule
 				attributs sélectionés & $1$ & $2$ & $3$ & $4$\\
@@ -810,16 +817,16 @@
 			\item<2-> On garantit la convergence vers une solution unique:
 			\begin{itemize}
 				\item On peut vérifier que SFS et SBE ne se contredisent pas.
-				\item On peut procéder comme dans l'example:
-				\begin{block}{Example}
+				\item On peut procéder comme dans l'exemple:
+				\begin{block}{Exemple}
 					Si SFS veut ajouter un attribut, il vérifie qu'il n'a pas été éliminé par SBE\@. Si oui, il prend le 2$^{\text{ème}}$ meilleur et ainsi de suite.
 				\end{block}
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
 
-	\section*{References}
-	\begin{frame}[allowframebreaks]{References}
+	\section*{Références}
+	\begin{frame}[allowframebreaks]{Références}
 		\nocite{sklearn_api}
 		\nocite{camps2009kernel}
 		\nocite{CC01a}
