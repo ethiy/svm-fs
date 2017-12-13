@@ -224,3 +224,6 @@ TSWLatexianTemp*
 
 # iPython notebook
 *.ipynb_checkpoints
+
+# QGIS files
+*.aux.xml
