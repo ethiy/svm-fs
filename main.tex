@@ -127,7 +127,7 @@
 		\begin{figure}[H]
 			\begin{center}
 				\includegraphics[width=.7\textwidth]{sample_2d}
-				\caption{\label{fig::sample_2d} exemple de problème de classification: $2$ attributs et $2$ classes.}
+				\caption{\label{fig::sample_2d} Exemple de problème de classification: $2$ attributs et $2$ classes.}
 			\end{center}
 		\end{figure}
 		\begin{itemize}
@@ -144,7 +144,7 @@
 		\begin{figure}[H]
 			\begin{center}
 				\includegraphics[width=.7\textwidth]{circles}
-				\caption{\label{fig::circles} exemple de problème de classification non supervisée: Pas de classes mais une structure se dégage.}
+				\caption{\label{fig::circles} Exemple de problème de classification non supervisée: Pas de classes mais une structure se dégage.}
 			\end{center}
 		\end{figure}
 		\begin{itemize}
@@ -158,11 +158,11 @@
 		\begin{itemize}
 			\item[--]<1-> On sait modéliser la distribution des classes et la réalisation des instances selon cette classe $p(x,y) = p(y).p(x\vert y)$ $\longrightarrow$ méthode générative,
 			\begin{itemize}
-				\item[--]<2-> On suppose que la répartition des sexes est équilibrée dans le monde et que la répartition des mesures --- poids et taille --- suivent des lois gaussiennes (c.f Figure~\ref{fig::sample_2d});
+				\item[--]<2-> Exemple: On suppose que la répartition des sexes est équilibrée dans le monde et que la répartition des mesures --- poids et taille --- suivent des lois gaussiennes (c.f Figure~\ref{fig::sample_2d});
 			\end{itemize}
-			\item[--]<3-> On n'a aucune connaissance \textit{a priori}. On cherche à apprendre $ p(x,y) = p(y \vert x).p(x)$ $\longrightarrow$ méthode discriminative,
+			\item[--]<3-> On n'a aucune connaissance \textit{a priori}. On cherche à apprendre un modèle de $ p(y \vert x) = \frac{p(x,y)}{p(x)}$ $\longrightarrow$ méthode discriminative,
 			\begin{itemize}
-				\item[--]<4-> On apprend un modèle d'arbres aléatoires.
+				\item[--]<4-> Exemple: On apprend un modèle d'arbres aléatoires.
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -197,7 +197,7 @@
 	\begin{frame}{Pourquoi classifier?}
 		\begin{figure}[H]
 			\includegraphics[width=.7\textwidth]{pc_classification}
-			\caption{\label{fig::pc_classif}exemple de classification de nuage de point\cite{LANDRIEU2017102}.}
+			\caption{\label{fig::pc_classif}Exemple de classification de nuage de point\cite{LANDRIEU2017102}.}
 		\end{figure}
 	\end{frame}
 
@@ -207,7 +207,7 @@
 			\item[--]<1-> Si on a $n$ points à séparer, sans un modèle de classification, il y a un nombre exponentiel de séparations $\sum_{k=0,\dots,\lfloor \frac{n}{2} \rfloor} \begin{pmatrix}
 			n\\
 			k
-			\end{pmatrix} = 2^{n-1}$ qui sont possible $\longrightarrow$ C'est incalculable.
+			\end{pmatrix} = 2^{n-1}$ possibles $\longrightarrow$ C'est incalculable.
 			\item[--]<2-> Il faut donc un modèle de séparation qui permettra de chercher efficacement une bonne solution: Forêts Aléatoires, \textbf{SVM}, Réseaux de Neurones \dots
 		\end{itemize}
 	\end{frame}
@@ -215,24 +215,24 @@
 	\begin{frame}{Mais c'est quoi donc ce SVM?}
 		\begin{itemize}
 			\item[--] SVM\@: Support Vector Machines;
-			\item[--] C'est donc un vecteur support?
+			\item[--] C'est quoi un vecteur support?
 		\end{itemize}
 	\end{frame}
 
 	\begin{frame}{Séparateur}
-		On se place dans le cas de classification binaires:
+		On se place dans le cas de classification binaire:
 		$$ X^i \in \mathbb{R}^d , \quad \forall i=1,\dots,n$$
 		$$ Y^i \in \{-1, +1\} , \quad \forall i=1,\dots,n$$
 		\begin{itemize}
-			\item[--]On cherche une fonction qui modélise la probabilité:
-			$$ \eta(x) = p(y = 1 \vert x) = 1 - p(y = 0 \vert x)$$
-			\item[--] Cela revient à modéliser aussi:
+			\item[--]On cherche une fonction qui estime la probabilité:
+			$$ \eta(x) = p(y = 1 \vert x) = 1 - p(y = -1 \vert x)$$
+			\item[--] On peut y arriver en modélisant:
 			\begin{align*}
 				f: x \mapsto \mathbb{E}_Y(Y \vert X=x) &= \sum_{y=-1, +1} Y.p(Y\vert X=x)\\
-				&= (+1) \times p(1\vert x) + (-1) \times p(-1\vert x)
+				&= (+1) \times p(y = 1\vert x) + (-1) \times p(y = -1\vert x)
 			\end{align*}
 
-			à partir duquel on en déduit la fonction de décision:
+			à partir duquel on déduit la fonction de décision:
 			\begin{align*}
 				D: \mathbb{R}^d &\rightarrow \{-1, +1\} \\
 				x &\mapsto D(x) = sign(f(x))
@@ -275,16 +275,16 @@
 	\begin{frame}{Choix du séparateur}
 		\begin{itemize}
 			\item[--] Il y a une infinité de modèle de $f(X)$ possible.
-			\item[--] Le choix le plus naïf serait:
+			\item[--] Le choix le plus naïf serait de donner, pour chaque instance d'entraînement, la valeur qui lui est associé, en ignorant le reste des points possibles:
 			\begin{equation*}
 				f = \sum_{i=1,\dots,n} Y^i . \delta_{X^i}
 			\end{equation*}
-			Par contre ce classifieur n'a pas de pourvoir de généralization. En effet:
+			Cependant, ce classifieur n'a aucun pourvoir de généralisation. En effet:
 			\begin{gather*}
 				\widetilde{x} \leftarrow \sum_{i=1,\dots,n} X^i \notin \{X^i, \forall i=1,\dots,n\} \\
 				\Rightarrow f(\widetilde{x}) = 0
 			\end{gather*}
-			\item[--] On s'intéresse ici au séparateur linéaire:
+			\item[--] On s'intéresse, dans le cadre du cours, aux séparateurs linéaires:
 			\begin{align*}
 				f_{\textbf{w}, b}: \mathbb{R}^d &\rightarrow \{-1, 0, +1\} \\
 				\textbf{x} &\mapsto f_{\textbf{w}, b}(\textbf{x}) = \textbf{w}.\textbf{x} + b
@@ -309,7 +309,7 @@
 						\includegraphics[width=.45\textwidth]{linear_separation}
 					}
 					{
-						\caption{exemples de séparateurs linéaire possible.}\label{fig::lin_sep}
+						\caption{Exemples de séparateurs linéaires possibles.}\label{fig::lin_sep}
 					}
 				\end{subfloatrow}
 			}
@@ -344,7 +344,7 @@
 				\Rightarrow
 				\lambda . \textbf{w} \in \{\omega \in \mathbb{R}^d : f_{\omega, b} = \mathbb{0}\}\quad, \forall \lambda \in \mathbb{R}\setminus\{0\}
 			\end{gather*}
-			\item[--] On prend donc la solution $\textbf{w}$ qui permet d'avoir:
+			\item[--] Il y a donc une infinité de solutions possibles. On prend donc la solution $\textbf{w}$ qui permet d'avoir:
 			\begin{align}
 				\textbf{w}.\textbf{x}_{\color{blue}+} + b &= {\color{blue}+}1 \\
 				\textbf{w}.\textbf{x}_{\color{red}-} + b &= {\color{red}-}1
@@ -414,20 +414,20 @@
 			\item[--] On lâche du ``mou'': On accepte des fois que
 			$$\exists k \; Y^k.(\textbf{w}.\textbf{X}^k + b) < 1$$
 			\item[--] On peut écrire ceci autrement:
-			$$\forall i=1,\dots,n \quad \exists \xi_i > 0 \quad Y^i.(\textbf{w}.\textbf{X}^i + b) \geq 1 - \xi_i$$
+			$$\forall i=1,\dots,n \quad \exists \xi_i \geq 0 \quad Y^i.(\textbf{w}.\textbf{X}^i + b) \geq 1 - \xi_i$$
 
 			\item[--] Il y a donc quatres cas pour $ \xi_i $:
 			\begin{itemize}
 				\item[-] $\xi_i = 0 \Rightarrow$ Point bien classé;
-				\item[-] $0 < \xi_i \leq 1 \Rightarrow$ Point dans la marge: pas très sûr;
-				\item[-] $1 < \xi_i \Rightarrow$ Point mal classé: pas très sûr;
-				\item[-] $2 < \xi_i \Rightarrow$ Point non séparable: sûrement mal classé;
+				\item[-] $0 < \xi_i \leq 1 \Rightarrow$ Point situé dans la marge: bien classé mais moins sûr;
+				\item[-] $1 < \xi_i \Rightarrow$ Point de l'autre côté de la ligne séparatrice mais dans la marge: donc mal classé et pas très sûr;
+				\item[-] $2 < \xi_i \Rightarrow$ Point non séparable, il dépasse l'autre limite de marge: sûrement mal classé;
 			\end{itemize}
 
 			\item[--] Dans le cas ou le problème n'est pas séparable linéairement, on peut déduire que
 			$\exists j, \quad 2 < \xi_j$
 
-			\item[--] Les différents $\xi_i$ peuvent être très grand. Il faut donc les pénaliser au moment de l'optimisation. Le problème devient donc:
+			\item[--] N'importe quel droite peut ainsi séparer les données. Les différents $\xi_i$ peuvent donc être très grand. Par conséquent, il faut les pénaliser au moment de l'optimisation. Le problème devient:
 			\begin{equation}
 				\begin{aligned}
 				& \min_{\textbf{w}, \xi_1,\dots,\xi_n \in \mathbb{R}^+}
@@ -439,11 +439,11 @@
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{Cas de Constante de régularisation.}
+	\begin{frame}{Cas de la constante de régularisation}
 		\begin{itemize}
 			\item[--] $C \ll 1 \Longrightarrow$ moins de pénalisation sur les variables de ressort $\Longrightarrow$ marge très grande, plus de généralisation;
 			\item[--] $C \gg 1 \Longrightarrow$ plus de pénalisation sur les variables de ressort $\Longrightarrow$ marge serrée, moins de généralisation;
-			\item[--] $C=\infty \Longrightarrow$ pénalisation complète sur les variables de ressort $\Longrightarrow$ marge dure, pas de généralisation.
+			\item[--] $C=\infty \Longrightarrow$ pénalisation complète sur les variables de ressort $\Longrightarrow$ marge dure: c'est la première version de SVM qu'on a vu.
 		\end{itemize}
 	\end{frame}
 	\begin{frame}{Optimization Quadratique! Peut-on faire mieux?}
@@ -470,6 +470,8 @@
 		\end{itemize}
 	\end{frame}
     \begin{frame}{Algorithmes en Pratiques}
+
+		On admet que la résolution d'un problème est équivalente à la résolution de l'autre.
 		\begin{itemize}
 			\item[--] Problème Primal: Stochstic Gradient Descent~\cite{bottou2010} (SGD).
             \item[--] Problème Dual: Sequential minimal Optimization (SMO)~\cite{platt1998sequential} et dérivées.
@@ -649,7 +651,7 @@
 				\vert\vert\Phi(X) - \Phi(Y)\vert\vert_2^2 &= \vert\vert\Phi(X)\vert\vert_2^2 + \vert\vert\Phi(Y)\vert\vert_2^2 - 2 \vert\vert\Phi(X)\vert\vert.\vert\vert\Phi(Y)\vert\vert_2^2 \\
 				 &= {\Phi(X)}^t.\Phi(X) + {\Phi(Y)}^t.\Phi(Y) - 2 {\Phi(X)}^t.\Phi(Y)
 			\end{align*}
-			\item[--]<3-> Il faut juste calculer le nouveau produit scalaire:
+			\item[--]<3-> Il suffit de calculer le nouveau produit scalaire:
 			\begin{equation}
 				\forall X, Y \in \mathbb{R}^d \quad k(X, Y) \triangleq {\Phi(X)}^t.\Phi(Y)
 			\end{equation}
@@ -837,17 +839,23 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\usebackgroundtemplate{
 		\begin{tikzpicture}
-			\draw (0,0.5) node[right] { \includegraphics[width=12.5cm]{from_space_background} };
-			\draw (0,5) node[right] { \includegraphics[height=1.5cm]{ign_logo} };
-			\draw (1.5,4.95) node[right] { \includegraphics[width=3cm]{ign_logo_bottom} };
+			\node (bg) {
+				\includegraphics[width=12.5cm]{from_space_background}
+			};
+			\path (bg.north)+(-5.5, 1) node (ign) {
+				\includegraphics[height=1.5cm]{ign_logo}
+			};
+			\path (ign.east)+(10.25, 0) node {
+				\includegraphics[width=1.5cm]{ensg_logo}
+			};
 		\end{tikzpicture}
 	}
 	\begin{frame}[plain,c]
 		\vspace{3cm}
 		\begin{tikzpicture}
 			\draw (0,0)node{};
-			\draw (4.5,1) node[color =IGNGris, inner sep=0.5em, minimum size=0.5em, text centered,font=\LARGE] { Thanks for your attention, };
-			\draw (4.5,0) node[color =IGNGris, inner sep=0.5em, minimum size=0.5em, text centered,font=\LARGE] { I am ready for your questions! };
+			\draw (4.5,1) node[color =IGNGris, inner sep=0.5em, minimum size=0.5em, text centered,font=\LARGE] { Merci pour votre attention, };
+			\draw (4.5,0) node[color =IGNGris, inner sep=0.5em, minimum size=0.5em, text centered,font=\LARGE] { Vous pouvez posez vos questions! };
 			\draw (4.5,-2) node[color =IGNVert, inner sep=0.5em, minimum size=0.5em, text centered,font=\LARGE] { oussama.ennafii@ign.fr };
 		\end{tikzpicture}
 	\end{frame}
