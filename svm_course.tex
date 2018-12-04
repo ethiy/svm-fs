@@ -9,7 +9,6 @@
 \usepackage{graphicx}
 \usepackage{subfig}
 \usepackage{floatrow}
-\captionsetup{labelsep=period}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows}
@@ -50,8 +49,8 @@
 	\begin{frame}{Rappel: Classification supervisée}
 		\begin{figure}[H]
 			\begin{center}
-				\includegraphics[height=.4\textheight]{images/samples/sample_2d}
-				\caption{\tiny Exemple de problème de classification: $2$ attributs et $2$ classes.}
+				\includestandalone[height=.4\textheight]{scatter_gender_dataset}
+				\caption*{\tiny Exemple de problème de classification: $2$ attributs et $2$ classes.}
 			\end{center}
 		\end{figure}
 		\begin{itemize}
@@ -67,31 +66,32 @@
 	\begin{frame}{Supervisé vs Non-Supervisée}
 		\begin{figure}[H]
 			\begin{center}
-				\includegraphics[width=.7\textwidth]{images/samples/circles}
-				\caption{\tiny Exemple de problème de classification non supervisée: Pas de classes mais une structure se dégage.}
+				\includestandalone[height=.4\textheight]{scatter_circles}
+				\caption*{\tiny Exemple de problème de classification non supervisée: Pas de classes mais une structure se dégage.}
 			\end{center}
 		\end{figure}
 		\begin{itemize}
 			\item <1-> On observe ${(X^i)}_{i=1,\dots,n}$ sans les classes $\longrightarrow$ non supervisée,
-			\item <2-> On observe ${\Big((X^i, Y^i)\Big)}_{i=1,\dots,n}$ $\longrightarrow$ supervisée.
+			\item <2-> On observe ${\big((X^i, Y^i)\big)}_{i=1,\dots,n}$ $\longrightarrow$ supervisée.
 		\end{itemize}
 	\end{frame}
 
 	\begin{frame}{Discriminatif vs Génératif}
-		Les échantillons réalise une loi de distribution inconnues $\mathbb{P}(X^i=x,Y^i=y)=p(x,y)$ et sont indépendents entre eux. La prédiction dépend de notre connaissance préalable:
+		On suppose que ${\big((X^i, Y^i)\big)}_{i=1,\dots,n}$ sont des réalisations i.i.d de la loi $\mathbb{P}(X=x, Y=y) = p(x,y)$.
 		\begin{itemize}
-			\only<1-4>{
+			\only<1-5>{
 				\item <1-> On sait modéliser la distribution des classes $p(y)$ et celle des instances selon la classe $p(x\vert y)$ $\longrightarrow$ méthode générative,
 				\begin{itemize}
 					\item <2-> Exemple: On s'interresse à la detection de sexe selon deux mesures: taille et poids.
 					\item <3-> On suppose que la répartition des sexes est équilibrée dans le monde $p(y=1) = p(y=0) = \frac{1}{2}$ et que et que la répartition des mesures suivent des lois gaussiennes $X\vert Y \sim \mathscr{N}(m_y, \sigma_y)$;
 					\item <4-> On infère la probabilité $p(y \vert x) = \frac{p(x\vert y). p(y)}{p(x)}$.
+					\item <5-> On choisit la plus probable: $\arg \max_{y} p(y \vert x)$.
 				\end{itemize}
 			}
-			\only<5-6>{
-				\item <5-> On n'a aucune connaissance \textit{a priori}. On cherche à apprendre un modèle de $p(y \vert x)$ $\longrightarrow$ méthode discriminative,
+			\only<6-7>{
+				\item <6-> On n'a aucune connaissance \textit{a priori}. On cherche à apprendre un modèle de $p(y \vert x)$ $\longrightarrow$ méthode discriminative,
 				\begin{itemize}
-					\item <6-> Exemple: On apprend un modèle d'arbres aléatoires.
+					\item <7-> Exemple: On apprend un modèle d'arbres aléatoires.
 				\end{itemize}
 			}
 		\end{itemize}
@@ -107,19 +107,19 @@
 						\includegraphics[width=.35\textwidth]{images/samples/gironde}
 					}
 					{
-						\caption{\tiny Image de la Gironde prise par SPOT en 2016: Résolution $1.5m$, $4$ canaux: \{{\color{purple!20}Infrarouge}, {\color{red}Rouge}, {\color{green}Vert}, {\color{blue}Bleu}\}.}
+						\caption*{\tiny Image de la Gironde prise par SPOT en 2016: Résolution $1.5m$, $4$ canaux: \{{\color{purple!20}Infrarouge}, {\color{red}Rouge}, {\color{green}Vert}, {\color{blue}Bleu}\}.}
 					}
 					\ffigbox[\FBwidth]
 					{
 						\includegraphics[width=.35\textwidth]{images/samples/gironde_classif}
 					}
 					{
-						\caption{\tiny Occupation des sols extraite de l'image: {\color{red}$\blacksquare$} Bâti, {\color{green}$\blacksquare$} Forêt, {\color{yellow}$\blacksquare$} Culture, {\color{gray}$\blacksquare$} Routes, {\color{blue}$\blacksquare$} Eau.}
+						\caption*{\tiny Occupation des sols extraite de l'image: {\color{red}$\blacksquare$} Bâti, {\color{green}$\blacksquare$} Forêt, {\color{yellow}$\blacksquare$} Culture, {\color{gray}$\blacksquare$} Routes, {\color{blue}$\blacksquare$} Eau.}
 					}
 				\end{subfloatrow}
 			}
 			{
-				\caption{\tiny Classification appliquée pour l'Occupation des sols~\cite{postadjian2017investigating}.}
+				\caption*{\tiny Classification appliquée pour l'Occupation des sols~\cite{postadjian2017investigating}.}
 			}
 		\end{figure}
 	\end{frame}
@@ -127,17 +127,14 @@
 	\begin{frame}{Pourquoi classifier?}
 		\begin{figure}[H]
 			\includegraphics[width=.7\textwidth]{images/samples/pc_classification}
-			\caption{\tiny Exemple de classification de nuage de point\cite{LANDRIEU2017102}.}
+			\caption*{\tiny Exemple de classification de nuage de point\cite{LANDRIEU2017102}.}
 		\end{figure}
 	\end{frame}
 
 	\section[SVM]{SVM}
 	\begin{frame}{Curse of dimensionality}
 		\begin{itemize}
-			\item <1-> Si on a $n$ points à séparer, sans un modèle de classification, il y a un nombre exponentiel de séparations $\sum_{k=0,\dots,\lfloor \frac{n}{2} \rfloor} \begin{pmatrix}
-			n\\
-			k
-			\end{pmatrix} = 2^{n-1}$ possibles $\longrightarrow$ C'est incalculable.
+			\item <1-> Si on a $n$ points à séparer, sans aucun modèle de classification, il y a un nombre exponentiel de séparations $ \frac{\vert \mathscr{P}(\{1,\dots,n\}) \vert}{2} = 2^{n-1}$ possibles $\longrightarrow$ C'est incalculable.
 			\item <2-> Il faut donc un modèle de séparation qui permettra de chercher efficacement une bonne solution: Forêts Aléatoires, \textbf{SVM}, Réseaux de Neurones \dots
 		\end{itemize}
 	\end{frame}
@@ -153,12 +150,12 @@
 				\item<3-> Comment faire? Quels types d'hypothèse à choisir?
 			\end{itemize}
 		\end{frame}
-		\begin{frame}{Digression: fonction de décision}
+		\begin{frame}{Formalisation: fonction de décision}
 			\begin{itemize}
 				\item<1-> On se place dans le cas de classification binaire:
 					$$ X^i \in \mathbb{R}^d , \quad \forall i=1,\dots,n$$
 					$$ Y^i \in \{-1, +1\} , \quad \forall i=1,\dots,n$$
-					$$p(y = -1 \vert x) = 1 - p(y = 1 \vert x)$$
+					$$\eta(x) = p(y = 1 \vert x) = 1 - p(y = -1 \vert x), \quad \forall x \in \mathbb{R}^d$$
 				\item<2-> On cherche une fonction de décision $D$ comme suit:
 				\begin{align*}
 					D: \mathbb{R}^d &\rightarrow \{-1, +1\} \\
@@ -168,114 +165,66 @@
 				\begin{equation}
 					R(D) \triangleq \mathbb{E}_{X,Y}(\mathbb{1}(D(X)\neq Y))
 				\end{equation}
+				\begin{align*}
+					R(D) &= \mathbb{P}(\{D(X)\neq Y\})\\
+						 &= \sum_{y\in \{-1, 1\}} \int_{x \in \mathbb{R}^d} \mathbb{1}(D(x)\neq y) p(dx, y)
+				\end{align*}
 			\end{itemize}
 		\end{frame}
-		\begin{frame}{Décideur optimal}
+		\begin{frame}{Fonction de décision optimal}
 			\begin{itemize}
-				\item<1-> Le décideur optimal $D^*$ donne le regret $R(D^*)$ minimal:
+				\item<1-> Le "décideur" optimal $D^*$ donne le regret $R(D^*)$ minimal:
 					  \begin{equation}
 						  D^* \triangleq \arg \min_{D} R(D) 
 					  \end{equation}
 				\item<2-> On appelle cette fonction la fonction de décision de Bayes. On prouve que:
 					  \begin{equation}
-						D^*(x) \triangleq 2.\mathbb{1}(p(y = 1 \vert x)> \frac{1}{2}) - 1
+						D^*(x) \triangleq 2.\mathbb{1}(\eta(x) > \frac{1}{2}) - 1
 					  \end{equation}
-				\item<3-> En pratique, on ne connait pas $p(y\vert x)$.
+				\item<3-> En pratique, on ne connait pas $\eta: \mathbb{R}^d \rightarrow [0,1]$.
 			\end{itemize}
 		\end{frame}
 
 		\begin{frame}{Apprentissage de séparateur}
 			\begin{itemize}
-				\item<1-> On évite de chercher à trouver $p(y\vert x)$.
-				\item<2-> Le problème se résout simplement en cherchant les valeurs où:
+				\item<1-> On évite de modéliser $\eta$ sur tout l'espace d'attributs $\mathbb{R}^d$.
+				\item<2-> Il est plus judicieux de modèliser $\eta$ sur les points $x$ où:
 						\begin{equation*}
-							p(y = 1 \vert x) = \frac{1}{2}
+							\eta(x) = \frac{1}{2}
 						\end{equation*}
-				\item  On cherche à imposer une contrainte, à ce qu'on appelle un séparateur, la courbe qui vérifie:
+				\item<3->  Cela revient à étudier ce qu'on appelle un séparateur; i.e. la courbe qui vérifie:
 					\begin{equation}
-						\mathscr{S}_{binary} \triangleq \{X \in \mathbb{R}^d: p(1\vert x) = p(-1\vert x) = \frac{1}{2} \}
+						\mathscr{S}_{binary} \triangleq \{X \in \mathbb{R}^d: \eta(x) = \frac{1}{2} \}
 					\end{equation}
 			\end{itemize}
 		\end{frame}
 
 		\begin{frame}{Séparateur: illustration}
 			\begin{figure}[H]
-				\ffigbox[\FBwidth]
-				{
-					\begin{subfloatrow}[2]
-						\ffigbox[\FBwidth]
-						{
-							\includegraphics[width=.45\textwidth]{images/samples/sample_svm}
-						}
-						{
-							\caption{\tiny Echantillons à séparer.}
-						}
-						\ffigbox[\FBwidth]
-						{
-							\includegraphics[width=.45\textwidth]{images/samples/separators}
-						}
-						{
-							\caption{\tiny Séparateurs possibles.}
-						}
-					\end{subfloatrow}
-				}
-				{
-					\caption{\tiny Séparation de données.}
-				}
+				\includestandalone[width=.5\textwidth]{scatter_separators}
+				\caption*{\tiny Séparateurs possibles des données. $\mathscr{S}_1$ est un exemple de séparateur courbe alors que $\mathscr{S}_2$ est linéaire.}
 			\end{figure}
-		\end{frame}
-
-		\begin{frame}{Quelles hypothèses: réponse}
-			\begin{itemize}
-				\item<2-> Des hypothèses sur le type de sépateur donc sur la fonction de décision!
-			\end{itemize}
 		\end{frame}
 
 		\begin{frame}{Choix du séparateur}
 			\begin{itemize}
 				\item  Il y a une infinité de modèle de $D$ possible.
-				\item  Le choix le plus naïf serait de donner, pour chaque instance d'entraînement, la valeur qui lui est associé, en ignorant le reste des points possibles:
+				\item  Un choix naïf serait de donner, pour chaque instance d'entraînement $X^i$, la valeur qui lui est associé $Y^i$, et pour toute autre valeur $x$ une classe de façon aléatoire:
 				\begin{equation*}
-					D_n(x) = \sum_{i=1,\dots,n} Y^i . \delta_{X^i}(x)
+					D_n(x) = \sum_{i=1,\dots,n} Y^i . \delta_{X^i}(x) + b . \mathbb{1}_{x \notin \{X^i, \forall i=1,\dots,n\}}
 				\end{equation*}
-				Cependant, ce classifieur n'a aucun pourvoir de généralisation. En effet:
+				où: $b \sim \mathscr{B}(0.5)$ est une valeur aléatoire qui suit une loi de Bernoulli avec paramètre $0.5$.
+				\item Cependant, ce classifieur n'a aucun pourvoir de généralisation. En effet:
 				\begin{gather*}
-					\widetilde{x} \leftarrow \sum_{i=1,\dots,n} X^i \notin \{X^i, \forall i=1,\dots,n\} \\
-					\Rightarrow D_n(\widetilde{x}) = 0
+					\widetilde{x} := \sum_{i=1,\dots,n} X^i \notin \{X^i, \forall i=1,\dots,n\} \\
+					\Rightarrow D_n(\widetilde{x}) \sim \mathscr{B}(0.5)
 				\end{gather*}
-				\item  On s'intéresse nous, dans le cadre du cours, aux séparateurs linéaires:
+				\item  On réduit, dans le cadre du cours, le choix des séparateurs à ceux qui sont linéaires:
 				\begin{align*}
 					D_{\textbf{w}, b}: \mathbb{R}^d &\rightarrow \{-1, +1\} \\
 					\textbf{x} &\mapsto D_{\textbf{w}, b}(\textbf{x}) = 2.\mathbb{1}(\textbf{w}.\textbf{x} + b > 0) - 1
 				\end{align*}
 			\end{itemize}
-		\end{frame}
-
-		\begin{frame}{Séparateur linéaire}
-			\begin{figure}[H]
-				\ffigbox[\FBwidth]
-				{
-					\begin{subfloatrow}[2]
-						\ffigbox[\FBwidth]
-						{
-							\includegraphics[width=.45\textwidth]{images/samples/sample_svm}
-						}
-						{
-							\caption{Echantillons à séparer.}\label{fig::sample_sep2}
-						}
-						\ffigbox[\FBwidth]
-						{
-							\includegraphics[width=.45\textwidth]{images/samples/linear_separation}
-						}
-						{
-							\caption{Exemples de séparateurs linéaires possibles.}\label{fig::lin_sep}
-						}
-					\end{subfloatrow}
-				}
-				{
-					\caption{\label{fig::lin_separators} Séparation linéaire de données.}
-				}
-			\end{figure}
 		\end{frame}
 
 	\subsection[linear]{SVM linéaire}
@@ -290,7 +239,7 @@
 		\begin{frame}{SVM\@: maximiser la marge.}
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{images/samples/svm}
-				\caption{ Le séparateur linéaire SVM.}
+				\caption*{ Le séparateur linéaire SVM.}
 			\end{figure}
 		\end{frame}
 
@@ -316,22 +265,27 @@
 			\end{itemize}
 		\end{frame}
 
-		\begin{frame}{SVM\@: maximiser la marge.}
+		\begin{frame}[plain]{SVM\@: maximiser la marge}
 			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{images/samples/svm_margin}
-				\caption{\label{fig::margin} Le séparateur linéaire SVM.}
+				\includestandalone[width=.75\textwidth]{svm_separable}
+				\caption*{\tiny Le séparateur linéaire SVM.}
 			\end{figure}
 		\end{frame}
 
-		\begin{frame}{SVM\@: optimisation.}
+		\begin{frame}{La marge}
 			\begin{itemize}
-				\item  On cherche à maximiser la marge:
-				\begin{align}
-					M &= \frac{\textbf{w}}{\vert\vert \textbf{w} \vert\vert}.(\textbf{x}_+ - \textbf{x}_-) \\
-					&= \frac{\textbf{w}.\textbf{x}_+ + b - (\textbf{w}.\textbf{x}_- + b)}{\vert\vert \textbf{w} \vert\vert}
-					&= \frac{2}{\vert\vert \textbf{w} \vert\vert}
-				\end{align}
-				\item  Le problème est reformuler donc comme suit:
+				\only<1>{
+					\item  La marge est la longueur de la projection orthogonal de $(\textbf{x}_+ - \textbf{x}_-)$ sur la droite porter par $\textbf{w}$:
+						\begin{align}
+						M &= \frac{\textbf{w}}{\vert\vert \textbf{w} \vert\vert}.(\textbf{x}_+ - \textbf{x}_-) \\
+						&= \frac{\textbf{w}.\textbf{x}_+ - \textbf{w}.\textbf{x}_-}{\vert\vert \textbf{w} \vert\vert}\\
+						&= \frac{\textbf{w}.\textbf{x}_+ + b - (\textbf{w}.\textbf{x}_- + b)}{\vert\vert \textbf{w} \vert\vert}\\
+						&= \frac{2}{\vert\vert \textbf{w} \vert\vert}
+						\end{align}
+				}
+				\item<2-> La marge est la longueur de la projection orthogonal de $(\textbf{x}_+ - \textbf{x}_-)$ sur la droite porter par $\textbf{w}$:
+					$$ M = \frac{2}{\vert\vert \textbf{w} \vert\vert} $$
+				\item<2->  Le problème posé par le SVM est donc formulé comme suit:
 				\begin{equation}
 					\begin{aligned}
 					& \max_{\textbf{w}}
@@ -343,7 +297,7 @@
 					\end{cases} \; \forall i = 1, \dots, n.
 					\end{aligned}
 				\end{equation}
-				\item  Ou encore:
+				\item<2->  Ou encore:
 				\begin{equation}
 					\begin{aligned}
 					& \min_{\textbf{w}}
@@ -358,14 +312,14 @@
 		\begin{frame}{Cas non séparable.}
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{images/samples/non_separable}
-				\caption{\label{fig::non_sep} Le séparateur linéaire SVM.}
+				\caption*{\label{fig::non_sep} Le séparateur linéaire SVM.}
 			\end{figure}
 		\end{frame}
 
 		\begin{frame}{Cas non séparable.}
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{images/samples/stable_margin}
-				\caption{\label{fig::stable_margin} La marge du séparateur linéaire SVM.}
+				\caption*{\label{fig::stable_margin} La marge du séparateur linéaire SVM.}
 			\end{figure}
 		\end{frame}
 
@@ -425,12 +379,12 @@
 				\begin{equation}
 					\begin{aligned}
 					& \max_{0 \leq \alpha_i \leq C ,\forall i=1,\dots,n}
-					& & \sum_{i=1,\dots,n} \alpha_i - \frac{1}{2}.\sum_{l,p=1,\dots,n}\alpha_l.\alpha_p.Y^l.Y^p.(X^l.X^p)\\
+					& & \sum_{i=1,\dots,n} \alpha_i - \frac{1}{2}.\sum_{l,p=1,\dots,n}\alpha_l.\alpha_p.Y^l.Y^p.<X^l,X^p>\\
 					& \text{sous contrainte}
 					& & \sum_{i=1,\dots,n}Y^i.\alpha_i=0
 					\end{aligned}
 				\end{equation}
-				\item<3->  Ce dernier est un problème d'optimisation \textit{linéaire} qu'on sait résoudre plus facilement.
+				où: $<x, x'>$ est le produit scalaire des deux vecteurs $\textbf{x}$ et $\textbf{x'}$ noté aussi précédemment $\textbf{x}.\textbf{x'}$.
 			\end{itemize}
 		\end{frame}
 		\begin{frame}{Algorithmes en Pratiques}
@@ -446,8 +400,8 @@
 	\begin{frame}{Changement d'espace}
 		\begin{figure}[H]
 			\begin{center}
-				\includegraphics[width=.7\textwidth]{images/samples/circles}
-				\caption{\label{fig::circles_3} Quelle transformation à appliquer pour obtenir des instances séparables linéairement.}
+				\includestandalone[width=.6\textwidth]{scatter_circles}
+				\caption*{\label{fig::circles_3} Quelle transformation à appliquer pour obtenir des instances séparables linéairement?}
 			\end{center}
 		\end{figure}
 	\end{frame}
@@ -456,9 +410,10 @@
 			\item  Trouver la transformation $\Phi$:
 			\begin{figure}[H]
 				\includegraphics[width=.7\textwidth]{images/samples/separation_pol}
-				\caption{\label{fig::kernel_polar} Exemple de changement d'espace avec une transfomation $\Phi$.}
+				\caption*{\label{fig::kernel_polar} Exemple de changement d'espace avec une transfomation $\Phi$.}
 			\end{figure}
-			\item  \begin{align*}
+			\item En coordonnées polaires:
+			\begin{align*}
 				\Phi: \mathbb{R}^2 &\rightarrow \mathbb{R}^2 \\
 				\begin{pmatrix}
 					x \\
@@ -479,22 +434,22 @@
 					\begin{subfloatrow}[2]
 						\ffigbox[\FBwidth]
 						{
-							\includegraphics[width=.45\textwidth]{images/samples/map_L_2_separation_1}
-						}
-						{
-							\caption{Vue de haut.}
-						}
-						\ffigbox[\FBwidth]
-						{
 							\includegraphics[width=.45\textwidth]{images/samples/map_L_2_separation}
 						}
 						{
-							\caption{Vue transversale.}
+							\caption*{Vue de haut.}
+						}
+						\ffigbox[\FBwidth]
+						{
+							\includegraphics[width=.45\textwidth]{images/samples/map_L_2_separation_1}
+						}
+						{
+							\caption*{Vue transversale.}
 						}
 					\end{subfloatrow}
 				}
 				{
-					\caption{  Exemple de changement d'espace avec une transfomation $\Phi$.}
+					\caption*{  Exemple de changement d'espace avec une transfomation $\Phi$.}
 				}
 			\end{figure}
 		\end{itemize}
@@ -504,7 +459,7 @@
 			\item <1-> Séparation linéaire dans le nouveau espace:
 			\begin{figure}[H]
 				\includegraphics[width=.5\textwidth]{images/samples/separation_x_2_y_2}
-				\caption{ Hyperplan séparant les deux classes dans le nouveau espace.}
+				\caption*{ Hyperplan séparant les deux classes dans le nouveau espace.}
 
 			\end{figure}
 			\item <2-> \begin{align*}
@@ -532,19 +487,19 @@
 							\includegraphics[width=.45\textwidth]{images/samples/separation_pol_2_1}
 						}
 						{
-							\caption{Vue de haut.}
+							\caption*{Vue de haut.}
 						}
 						\ffigbox[\FBwidth]
 						{
 							\includegraphics[width=.45\textwidth]{images/samples/separation_pol_2_2}
 						}
 						{
-							\caption{Vue transversale.}
+							\caption*{Vue transversale.}
 						}
 					\end{subfloatrow}
 				}
 				{
-					\caption{Exemple de changement d'espace avec une transfomation $\Phi$.}
+					\caption*{Exemple de changement d'espace avec une transfomation $\Phi$.}
 				}
 			\end{figure}
 		\end{itemize}
@@ -554,10 +509,11 @@
 			\item <1-> Séparation linéaire dans le nouveau espace:
 			\begin{figure}[H]
 				\includegraphics[width=.7\textwidth]{images/samples/separation_pol_2_3}
-				\caption{\label{fig::pol_take_3} Hyperplan séparant les deux classes dans le nouveau espace.}
+				\caption*{\label{fig::pol_take_3} Hyperplan séparant les deux classes dans le nouveau espace.}
 
 			\end{figure}
-			\item <2-> \begin{align*}
+			\item <2-> Transformation \textit{polynomiale}:
+			\begin{align*}
 				\Phi: \mathbb{R}^2 &\rightarrow \mathbb{R}^3 \\
 				\begin{pmatrix}
 					x \\
@@ -613,7 +569,7 @@
 			$$\forall X, Y \in \mathbb{R}^d$$
 			\begin{align*}
 				\vert\vert\Phi(X) - \Phi(Y)\vert\vert_2^2 &= \vert\vert\Phi(X)\vert\vert_2^2 + \vert\vert\Phi(Y)\vert\vert_2^2 - 2 \vert\vert\Phi(X)\vert\vert.\vert\vert\Phi(Y)\vert\vert_2^2 \\
-				 &= <\Phi(X),\Phi(X)> + <\Phi(Y)},\Phi(Y)> - 2 <\Phi(X),\Phi(Y)>
+				 &= <\Phi(X),\Phi(X)> + <\Phi(Y),\Phi(Y)> - 2 <\Phi(X),\Phi(Y)>
 			\end{align*}
 			\item <3-> Il suffit de calculer le nouveau produit scalaire:
 			\begin{equation}
@@ -645,7 +601,7 @@
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{Kernels Usuels}
+	\begin{frame}[plain]{Kernels Usuels}
 		\begin{figure}[H]
 			\ffigbox[\FBwidth]
 			{
