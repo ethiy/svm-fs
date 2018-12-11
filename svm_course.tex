@@ -49,24 +49,24 @@
 	\begin{frame}{Rappel: Classification supervisée}
 		\begin{figure}[H]
 			\begin{center}
-				\includestandalone[height=.4\textheight]{scatter_gender_dataset}
+				\includestandalone[mode=buildnew, height=.4\textheight]{scatter_gender_dataset}
 				\caption*{\tiny Exemple de problème de classification: $2$ attributs et $2$ classes.}
 			\end{center}
 		\end{figure}
 		\begin{itemize}
 			\item <1-> On observe $n$ échantillons: $\big((X^i, Y^i)\big)_{i=1,\dots,n}$
-			\item <2-> Sachant une instance $X^j = \begin{pmatrix}
+			\item <2-> Connaissant une instance $X^j = \begin{pmatrix}
 			X_1^j\\
 			\vdots \\
 			X_d^j
-			\end{pmatrix}$, il faut prédire sa classe $Y^j$ et sa probabilité.
+			\end{pmatrix}$, il faut prédire sa classe $Y^j$ et la probabilité de cette classe.
 		\end{itemize}
 	\end{frame}
 
 	\begin{frame}{Supervisé vs Non-Supervisée}
 		\begin{figure}[H]
 			\begin{center}
-				\includestandalone[height=.4\textheight]{scatter_circles}
+				\includestandalone[mode=buildnew, height=.4\textheight]{scatter_circles}
 				\caption*{\tiny Exemple de problème de classification non supervisée: Pas de classes mais une structure se dégage.}
 			\end{center}
 		\end{figure}
@@ -77,7 +77,7 @@
 	\end{frame}
 
 	\begin{frame}{Discriminatif vs Génératif}
-		On suppose que ${\big((X^i, Y^i)\big)}_{i=1,\dots,n}$ sont des réalisations i.i.d de la loi $\mathbb{P}(X=x, Y=y) = p(x,y)$.
+		On suppose que ${\big((X^i, Y^i)\big)}_{i=1,\dots,n}$ sont des réalisations indépendantes et identiquement distribuées (i.i.d) de la loi $\mathbb{P}(X=x, Y=y) = p(x,y)$.
 		\begin{itemize}
 			\only<1-5>{
 				\item <1-> On sait modéliser la distribution des classes $p(y)$ et celle des instances selon la classe $p(x\vert y)$ $\longrightarrow$ méthode générative,
@@ -161,10 +161,11 @@
 					D: \mathbb{R}^d &\rightarrow \{-1, +1\} \\
 					x &\mapsto D(x)
 				\end{align*}
-				\item<3-> On définit le regret de cette fonction de décision par:
+				\item<3-> On définit le regret, ou risque, d'une fonction de décision $D$ par:
 				\begin{equation}
 					R(D) \triangleq \mathbb{E}_{X,Y}(\mathbb{1}(D(X)\neq Y))
 				\end{equation}
+				\item<4-> Cette fonction calcule la mesure de l'espace d'attributs où $D(x) \neq y$:
 				\begin{align*}
 					R(D) &= \mathbb{P}(\{D(X)\neq Y\})\\
 						 &= \sum_{y\in \{-1, 1\}} \int_{x \in \mathbb{R}^d} \mathbb{1}(D(x)\neq y) p(dx, y)
@@ -201,8 +202,8 @@
 
 		\begin{frame}{Séparateur: illustration}
 			\begin{figure}[H]
-				\includestandalone[width=.5\textwidth]{scatter_separators}
-				\caption*{\tiny Séparateurs possibles des données. $\mathscr{S}_1$ est un exemple de séparateur courbe alors que $\mathscr{S}_2$ est linéaire.}
+				\includestandalone[mode=buildnew, width=.5\textwidth]{scatter_separators}
+				\caption*{\tiny Séparateurs possibles des données. $\mathscr{S}_1$ est un exemple de séparateur courbe alors que $\mathscr{S}_2$ est un séparateur linéaire.}
 			\end{figure}
 		\end{frame}
 
@@ -259,15 +260,15 @@
 				\end{align}
 				où:
 				\begin{itemize}
-					\item[{\color{blue}+}] $\textbf{x}_{\color{blue}+}$ correspond aux supports vecteurs positifs (i.e. $Y={\color{blue}+}1$).
-					\item[{\color{red}---}] $\textbf{x}_{\color{red}-}$ correspond aux supports vecteurs négatifs (i.e. $Y={\color{red}-}1$).
+					\item[{\color{blue}+}] $\textbf{x}_{\color{blue}+}$ correspond aux vecteurs supports positifs (i.e. $Y={\color{blue}+}1$).
+					\item[{\color{red}---}] $\textbf{x}_{\color{red}-}$ correspond aux vecteurs supports négatifs (i.e. $Y={\color{red}-}1$).
 				\end{itemize}
 			\end{itemize}
 		\end{frame}
 
 		\begin{frame}[plain]{SVM\@: maximiser la marge}
 			\begin{figure}[H]
-				\includestandalone[width=.75\textwidth]{svm_separable}
+				\includestandalone[mode=buildnew, width=.75\textwidth]{svm_separable}
 				\caption*{\tiny Le séparateur linéaire SVM.}
 			\end{figure}
 		\end{frame}
@@ -276,15 +277,17 @@
 			\begin{itemize}
 				\only<1>{
 					\item  La marge est la longueur de la projection orthogonal de $(\textbf{x}_+ - \textbf{x}_-)$ sur la droite porter par $\textbf{w}$:
-						\begin{align}
+						\begin{align*}
 						M &= \frac{\textbf{w}}{\vert\vert \textbf{w} \vert\vert}.(\textbf{x}_+ - \textbf{x}_-) \\
 						&= \frac{\textbf{w}.\textbf{x}_+ - \textbf{w}.\textbf{x}_-}{\vert\vert \textbf{w} \vert\vert}\\
 						&= \frac{\textbf{w}.\textbf{x}_+ + b - (\textbf{w}.\textbf{x}_- + b)}{\vert\vert \textbf{w} \vert\vert}\\
 						&= \frac{2}{\vert\vert \textbf{w} \vert\vert}
-						\end{align}
+						\end{align*}
 				}
 				\item<2-> La marge est la longueur de la projection orthogonal de $(\textbf{x}_+ - \textbf{x}_-)$ sur la droite porter par $\textbf{w}$:
-					$$ M = \frac{2}{\vert\vert \textbf{w} \vert\vert} $$
+					\begin{equation}
+						M = \frac{2}{\vert\vert \textbf{w} \vert\vert}
+					\end{equation}
 				\item<2->  Le problème posé par le SVM est donc formulé comme suit:
 				\begin{equation}
 					\begin{aligned}
@@ -391,8 +394,8 @@
 
 			On admet que la résolution d'un problème est équivalente à la résolution de l'autre.
 			\begin{itemize}
-				\item  Problème Primal: Stochstic Gradient Descent~\cite{bottou2010} (SGD).
-				\item  Problème Dual: Sequential minimal Optimization (SMO)~\cite{platt1998sequential} et dérivées.
+				\item  Problème Primal: Descente de Gradient Stochastique~\cite{bottou2010} (SGD).
+				\item  Problème Dual: Sequential minimal Optimization (SMO)~\cite{platt1998sequential} et dérivés.
 			\end{itemize}
 		\end{frame}
 	\subsection[kernel]{Kernel SVM}
@@ -400,7 +403,7 @@
 	\begin{frame}{Changement d'espace}
 		\begin{figure}[H]
 			\begin{center}
-				\includestandalone[width=.6\textwidth]{scatter_circles}
+				\includestandalone[mode=buildnew, width=.6\textwidth]{scatter_circles}
 				\caption*{\label{fig::circles_3} Quelle transformation à appliquer pour obtenir des instances séparables linéairement?}
 			\end{center}
 		\end{figure}
@@ -528,8 +531,8 @@
 	\end{frame}
 	\begin{frame}{Changement d'espace}
 		\begin{itemize}
-			\item  Le but du changement d'espace est de pouvoir séparer linéairement le problème dans un nouveau espace où les distances Euclidiennes ont un sens;
-			\item  On transforme donc les instances avec une application comme suit:
+			\item  Le but du changement d'espace est de pouvoir séparer linéairement le problème dans un nouvel espace où les distances Euclidiennes ont un sens;
+			\item  On transforme donc les observations avec une application comme suit:
 			\begin{align*}
 				\Phi: \mathbb{R}^d &\rightarrow \mathbb{R}^p \\
 				X &\mapsto \Phi(X)
@@ -594,7 +597,7 @@
 			\begin{equation}
 				k_{\gamma, c}(x,y) = (x^t.y + c)^{\gamma}
 			\end{equation}
-			\item  Kernel Sigmoidal:
+			\item  Kernel Sigmoïde:
 			\begin{equation}
 				k_{\gamma, c}(x,y) = \gamma.\tanh(x^t.y + c)
 			\end{equation}
@@ -638,7 +641,7 @@
 	\section[feature selection]{Sélection d'attributs}
 	\subsection[motivation]{Motivation}
 	\begin{frame}{Pourquoi sélectionner les attributs?}
-		Les espaces à très grande dimension ne resemble pas au plan $\mathbb{R}^2$ ou au volume  $\mathbb{R}^3$:
+		Les espaces de très grande dimension ne ressemblent pas au plan $\mathbb{R}^2$ ou au volume  $\mathbb{R}^3$:
 		\begin{itemize}
 			\item <1-> Les calculs durent plus de temps,
 			\item <2-> Il y a moins de volume à l'intérieur; si on compare le volume contenu dans une sphère et le volume de l'hypercube circonscrit:
@@ -648,24 +651,24 @@
 	\end{frame}
 
 	\begin{frame}{Comment sélectionner les attributs?}
-		Encore un fois, sans connaissance préalable, la sélection d'attributs est insoluble vue le nombre exponentiel de possibilité $\sum_{k=0,\dots,n} \begin{pmatrix}
+		Encore un fois, sans connaissance préalable, la sélection d'attributs est insoluble vu le nombre exponentiel de possibilité $\sum_{k=0,\dots,n} \begin{pmatrix}
 		n\\
 		k
 		\end{pmatrix} = 2^n$.
 
 		On distingue donc trois types d'approche:
 		\begin{enumerate}
-			\item<1-> approche par filtre: on choisit les attributs en amont en reposant sur un critère,
+			\item<1-> approche par filtre: on choisit les attributs en amont en s'appuyant sur un critère,
 			\item<2-> approche intégrée: on sélectionne les attributs en reposant sur les caractéristiques du classifieur,
-			\item<3-> approche symbiotique: on retient les attributs les plus performants en aval.
+			\item<3-> approche symbiotique: on sélectionne les attributs les plus performants en aval.
 		\end{enumerate}
 	\end{frame}
 
 	\subsection[filter approach]{Approche par filtre}
 	\begin{frame}{Approche par filtre}
 		\begin{itemize}
-			\item  Corrélation: un bon sous-ensemble contient des attributs pas très corrélés entre eux $\longrightarrow$ on élimine les variables redondantes;
-			\item  Relief: qualification d'un attribut en fonction de comment ses valeurs permettent de distinguer des points qui sont proches.
+			\item  Corrélation: un bon sous-ensemble contient des attributs peu corrélés entre eux $\longrightarrow$ on élimine les variables redondantes;
+			\item  Relief: évaluation d'un attribut en fonction de sa capacité à discriminer des points proches.
 		\end{itemize}
 	\end{frame}
 
@@ -688,9 +691,9 @@
 		Sélection ascendante (SFS\@: Sequential Forward Selection).
 		\begin{enumerate}
 		\item<1-> On sélectionne le meilleur attribut;
-		\item<2-> On lui rajoute l'attribut qui forme la meilleur paire;
+		\item<2-> On lui rajoute l'attribut le plus complémentaire;
 		\item<3-> On continue à rajouter les attributs de manière à avoir à l'itération $k$ le meilleur $k$-tuple;
-		\item <4-> Le problème est que l'on peut rater en procédant ainsi au meilleur ensemble.
+		\item <4-> Le problème est qu'on n'a pas de garantie d'obtenir le meilleur ensemble d'attributs.
 		\end{enumerate}
 	\end{frame}
 
@@ -713,11 +716,18 @@
 				\end{longtable}
 				\begin{longtable}{c c c c c c c}
 					\toprule
-					attribut sélectionés & $1,2,3$ & $1,2,4$ & $1,3,4$ & $2,3,4$ & $1,2,3,4$\\
+					attribut sélectionés & $1,2,3$ & $1,2,4$ & $1,3,4$ & $2,3,4$\\
 					\midrule
-					résultat & $0.61$ & $0.67$ & $0.59$ & $0.78$ & \boldmath$0.81$\\
+					résultat & $0.61$ & $0.67$ & $0.59$ & \boldmath$0.78$\\
 					\bottomrule
 				\end{longtable}
+				\begin{longtable}{c c c c c c c}
+				\toprule
+				attribut sélectionés & $1,2,3,4$\\
+				\midrule
+				résultat & \boldmath$0.81$\\
+				\bottomrule
+			\end{longtable}
 			\end{center}
 		\end{block}
 	\end{frame}
@@ -726,10 +736,10 @@
 		Sélection descendante (SBE\@: Sequential Backward Elimination).
 		Cette méthode ressemble à celle d'avant.
 		\begin{enumerate}
-		\item<1-> On élimine le attribut qui ne rapporte pas beaucoup;
-		\item<2-> On réitère de façon à ce que qu'à l'itération $k$ on aura éleminé les $k$ pire attribut;
-		\item<3-> On continue jusqu'à ce qu'il ne reste plus qu'un attribut ou un nombre donné.
-		\item <4-> On rencontre le même problèmes qu'avant.
+		\item<1-> On élimine le attribut le moins discriminatif;
+		\item<2-> On réitère  de telle sorte qu'à l'itération $k$ on aura éleminé les $k$ pires attributs;
+		\item<3-> On continue jusqu'à avoir atteint le nombre d'attributs voulus;
+		\item <4-> On rencontre le même problème qu'avant.
 		\end{enumerate}
 	\end{frame}
 
